@@ -94,7 +94,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	    plt.imshow(r_image)
 	    plt.draw()
 	    plt.grid('off')
-		plt.axis('off')
+	    plt.axis('off')
 	    plt.pause(0.001)
 	    
 	gen_grid_vis(o_image, first_image, total_grid, num_trials)
