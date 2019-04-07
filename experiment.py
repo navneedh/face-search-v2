@@ -9,7 +9,7 @@ import dnnlib as dnnlib
 import dnnlib.tflib as tflib
 import config as config
 import pickle
-import os
+import os  
 import sample as sp 
 import util 
 
