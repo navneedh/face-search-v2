@@ -38,7 +38,8 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	print("Generating original image ...")
 
-	o_image = sp.z_sample(Gs, original_z)
+	with tf.device('/gpu:0'):
+		o_image = sp.z_sample(Gs, original_z)
 	imsave("./" + "exp" + str(experimentNum) + "/original.png", o_image)
 	plt.imshow(o_image)
 	plt.grid('off')
@@ -50,7 +51,8 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	total_grid = []
 
 	cur_z = sp.random_vector()
-	r_image = sp.z_sample(Gs, cur_z)
+	with tf.device('/gpu:0'):
+		r_image = sp.z_sample(Gs, cur_z)
 	first_image = r_image
 	imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(1)+".png", r_image)
 	error_vals.append(ut.pixel_error(r_image, o_image))
@@ -91,7 +93,8 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	    
 	    
 	    print("Generating reconstructed image ...")
-	    r_image = sp.z_sample(Gs,cur_z)
+	    with tf.device('/gpu:0'):
+	    	r_image = sp.z_sample(Gs,cur_z)
 	    total_grid.append(r_image)
 	    z_vectors.append(cur_z)
 	    imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(exp_iter + 1)+".png", r_image)
