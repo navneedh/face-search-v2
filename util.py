@@ -1,5 +1,4 @@
 import tensorflow as tf
-from google.colab import files
 from scipy.misc import imsave
 import matplotlib.pyplot as plt
 import numpy as np

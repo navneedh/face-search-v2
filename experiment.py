@@ -1,5 +1,5 @@
 import tensorflow as tf
-from google.colab import files
+# from google.colab import files
 from scipy.misc import imsave
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,7 +11,7 @@ import config as config
 import pickle
 import os  
 import sample as sp 
-import util 
+import util as ut
 
 # Initialize TensorFlow
 tflib.init_tf()
