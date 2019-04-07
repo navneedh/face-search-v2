@@ -10,7 +10,7 @@ import config as config
 import pickle
 import os  
 
-def random_sample():
+def random_sample(Gs):
     # Pick latent vector.
     rnd = np.random.RandomState(5)
     latents = rnd.randn(1, Gs.input_shape[1])
@@ -26,7 +26,7 @@ def random_sample():
     PIL.Image.fromarray(images[0], 'RGB').save(png_filename)
     print("DOne")
     
-def z_sample(z):
+def z_sample(Gs, z):
     #z.shape = (1,512)
     
     # Generate image.
