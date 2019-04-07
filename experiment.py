@@ -32,7 +32,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	print("Generating original image ...")
 
-	o_image = z_sample(original_z)
+	o_image = sp.z_sample(original_z)
 	imsave("./" + "exp" + str(experimentNum) + "/original.png", o_image)
 	plt.imshow(o_image)
 	plt.grid('off')
