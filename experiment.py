@@ -28,7 +28,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	seed = 3242
 	np.random.seed(19238817)
 
-	original_z = random_vector()
+	original_z = sp.random_vector()
 
 	print("Generating original image ...")
 
@@ -43,11 +43,11 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	error_vals = [] # pixel error w.r.t original image after each iteration
 	total_grid = []
 
-	cur_z = random_vector()
-	r_image = z_sample(cur_z)
+	cur_z = sp.random_vector()
+	r_image = sp.z_sample(cur_z)
 	first_image = r_image
 	imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(1)+".png", r_image)
-	error_vals.append(pixel_error(r_image, o_image))
+	error_vals.append(ut.pixel_error(r_image, o_image))
 	plt.imshow(r_image)
 	plt.draw()
 	plt.pause(0.001)
@@ -58,11 +58,11 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	    print("1: Least Noise - 3: Most Noise")
 	    raw_noise_level = input()
 	    if int(raw_noise_level) == 1:
-	        noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, 0.5)
+	        noisyVecs, noisyImages, noises = sp.gen_grid_exp(cur_z, exp_iter, 0.5)
 	    elif int(raw_noise_level) == 2:
-	        noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, 1.3)
+	        noisyVecs, noisyImages, noises = sp.gen_grid_exp(cur_z, exp_iter, 1.3)
 	    else:
-	        noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, 8)
+	        noisyVecs, noisyImages, noises = sp.gen_grid_exp(cur_z, exp_iter, 8)
 	    temp_grid =  [0] * 6 
 	    
 	    # use commas to separate ranking scores 
@@ -85,11 +85,11 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	    
 	    
 	    print("Generating reconstructed image ...")
-	    r_image = z_sample(cur_z)
+	    r_image = sp.z_sample(cur_z)
 	    total_grid.append(r_image)
 	    z_vectors.append(cur_z)
 	    imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(exp_iter + 1)+".png", r_image)
-	    error_vals.append(pixel_error(r_image, o_image))
+	    error_vals.append(ut.pixel_error(r_image, o_image))
 	    print(error_vals)
 	    plt.imshow(r_image)
 	    plt.draw()
@@ -97,4 +97,4 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	    plt.axis('off')
 	    plt.pause(0.001)
 	    
-	gen_grid_vis(o_image, first_image, total_grid, num_trials)
+	ut.gen_grid_vis(o_image, first_image, total_grid, num_trials)
