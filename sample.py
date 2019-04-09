@@ -27,7 +27,7 @@ def random_sample(Gs):
     os.makedirs(config.result_dir, exist_ok=True)
     png_filename = os.path.join(config.result_dir, 'random.png')
     PIL.Image.fromarray(images[0], 'RGB').save(png_filename)
-    print("DOne")
+    print("Done")
     
 def z_sample(Gs, z):
     #z.shape = (1,512)
