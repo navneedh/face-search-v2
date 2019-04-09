@@ -38,7 +38,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	print("Generating original image ...")
 
-	with tf.device('/gpu:0'):
+	with tf.device('/GPU:0'):
 		o_image = sp.z_sample(Gs, original_z)
 	imsave("./" + "exp" + str(experimentNum) + "/original.png", o_image)
 	plt.imshow(o_image)
