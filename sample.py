@@ -35,7 +35,7 @@ def z_sample(Gs, z):
     # Generate image.
     fmt = dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True)
 
-    with tf.device('/gpu:0'):
+    with tf.device('/GPU:0'):
         images = Gs.run(z, None, truncation_psi=0.7, randomize_noise=True, output_transform=fmt)
 
     # Save image.
