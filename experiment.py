@@ -22,12 +22,13 @@ print('Found GPU at: {}'.format(device_name))
 # Initialize TensorFlow
 tflib.init_tf()
 
-# Load pre-trained network.
-url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ' # karras2019stylegan-ffhq-1024x1024.pkl
-with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
-    _G, _D, Gs = pickle.load(f)
 
 def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha = 0.99):
+	# Load pre-trained network.
+	url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ' # karras2019stylegan-ffhq-1024x1024.pkl
+	with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
+	    _G, _D, Gs = pickle.load(f)
+
 	tflib.init_tf()
 
 	os.mkdir("exp" + str(experimentNum))
