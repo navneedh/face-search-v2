@@ -107,3 +107,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	    plt.pause(0.001)
 	    
 	ut.gen_grid_vis(o_image, first_image, total_grid, num_trials)
+
+
+if __name__ == "__main__":
+	run(12)
