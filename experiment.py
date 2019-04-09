@@ -28,6 +28,8 @@ with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
     _G, _D, Gs = pickle.load(f)
 
 def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha = 0.99):
+	tflib.init_tf()
+
 	os.mkdir("exp" + str(experimentNum))
 
 	#Generate and save original image that you will 
