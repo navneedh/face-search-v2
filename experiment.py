@@ -72,7 +72,7 @@ def gen_grid_exp(cur_z, exp_iter, noise_level = 1):
         noise_val = (random_vector() * noise_level) #most noise added
         zs = cur_z + noise_val
         zs = np.clip(zs, -5, 5)
-        p_image = z_sample(zs)
+        p_image = z_sample(Gs, zs)
         noises.append(noise_val)
         noisyVecs.append(zs)
         noisyImages.append(p_image)
