@@ -8,7 +8,6 @@
 """Minimal script for generating an image using pre-trained StyleGAN generator."""
 
 import os
-import tensorflow as tf 
 import pickle
 import numpy as np
 import PIL.Image
@@ -27,8 +26,7 @@ def main():
         # _G = Instantaneous snapshot of the generator. Mainly useful for resuming a previous training run.
         # _D = Instantaneous snapshot of the discriminator. Mainly useful for resuming a previous training run.
         # Gs = Long-term average of the generator. Yields higher-quality results than the instantaneous snapshot.
-    
-    # _G, _D, Gs = pickle.load(open("weights.pkl", "rb"))
+
     # Print network details.
     Gs.print_layers()
 
@@ -38,7 +36,6 @@ def main():
 
     # Generate image.
     fmt = dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True)
-
     images = Gs.run(latents, None, truncation_psi=0.7, randomize_noise=True, output_transform=fmt)
 
     # Save image.
