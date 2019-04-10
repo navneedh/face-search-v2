@@ -33,7 +33,7 @@ def random_sample(Gs):
 
     # Generate image.
     fmt = dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True)
-	images = Gs.run(latents, None, truncation_psi=0.7, randomize_noise=True, output_transform=fmt)
+    images = Gs.run(latents, None, truncation_psi=0.7, randomize_noise=True, output_transform=fmt)
 
     # Save image.
     os.makedirs(config.result_dir, exist_ok=True)
