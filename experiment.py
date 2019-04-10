@@ -10,8 +10,8 @@ import dnnlib.tflib as tflib
 import config as config
 import pickle
 import os  
-import sample as sp 
-import util as ut
+# import sample as sp 
+# import util as ut
 
 
 # Initialize TensorFlow
