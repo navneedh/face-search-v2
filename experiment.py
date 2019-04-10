@@ -13,6 +13,8 @@ import os
 # import sample as sp 
 # import util as ut
 
+experimentNum = 29
+
 
 # Initialize TensorFlow
 tflib.init_tf()
