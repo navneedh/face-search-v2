@@ -125,7 +125,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
         new_im.paste(im, (i,0))
         index += 1
 	for i in range(384,576,64):
-        np.random.seed(np.random.randint(4362634))
+		np.random.seed(np.random.randint(4362634))
         noise_val = (random_vector() * 8) #most noise added
         zs = cur_z + noise_val
         zs = np.clip(zs, -5, 5)
