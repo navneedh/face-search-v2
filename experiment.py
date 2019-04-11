@@ -224,7 +224,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		print("1: Least Noise - 3: Most Noise")
 		raw_noise_level = input()
 		if int(raw_noise_level) == 1:
-		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image 0.5)
+		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, 0.5)
 		elif int(raw_noise_level) == 2:
 		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, 1.3)
 		else:
