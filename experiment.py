@@ -212,48 +212,48 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		print("Generating noise level option examples from least noise to most noise")
 		present_noise_choices(cur_z, exp_iter,experimentNum)
-	    print("Input integer between 1-3 for desired noise level")
-	    print("1: Least Noise - 3: Most Noise")
-	    raw_noise_level = input()
-	    if int(raw_noise_level) == 1:
-	        noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, 0.5)
-	    elif int(raw_noise_level) == 2:
-	        noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum,1.3)
-	    else:
-	        noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, 8)
-	    temp_grid =  [0] * 6 
-	    
-	    # use commas to separate ranking scores 
-	    raw_rankings = input() 
-	    rankings = np.array([int(x) for x in raw_rankings.split(",")])
-	    
-	    #for visualization purposes 
-	    for i,r in enumerate(rankings):
-	        temp_grid[r - 1] = noisyImages[i]
-	    total_grid += temp_grid
-	    
-	    rankings = (rankings - rankings.mean())/rankings.std()
-	    noisyVecsSum = np.zeros(512).reshape(1,512)
-	    for i,r in enumerate(rankings):
-	        noisyVecsSum += r * (noises[i])
+		print("Input integer between 1-3 for desired noise level")
+		print("1: Least Noise - 3: Most Noise")
+		raw_noise_level = input()
+		if int(raw_noise_level) == 1:
+		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, 0.5)
+		elif int(raw_noise_level) == 2:
+		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum,1.3)
+		else:
+		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, 8)
+		temp_grid =  [0] * 6 
 
-	    #update step 
-	    learning_rate = (alpha**(exp_iter/2))
-	    cur_z = cur_z + learning_rate * (noisyVecsSum/(6 * noise))
-	    
-	    
+		# use commas to separate ranking scores 
+		raw_rankings = input() 
+		rankings = np.array([int(x) for x in raw_rankings.split(",")])
+
+		#for visualization purposes 
+		for i,r in enumerate(rankings):
+		    temp_grid[r - 1] = noisyImages[i]
+		total_grid += temp_grid
+
+		rankings = (rankings - rankings.mean())/rankings.std()
+		noisyVecsSum = np.zeros(512).reshape(1,512)
+		for i,r in enumerate(rankings):
+		    noisyVecsSum += r * (noises[i])
+
+		#update step 
+		learning_rate = (alpha**(exp_iter/2))
+		cur_z = cur_z + learning_rate * (noisyVecsSum/(6 * noise))
+
+
 		print("Reconstructed Image", exp_iter)
-	    r_image = z_sample(Gs,cur_z)
-	    total_grid.append(r_image)
-	    z_vectors.append(cur_z)
-	    imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(exp_iter + 1)+".png", r_image)
-	    error_vals.append(pixel_error(r_image, o_image))
-	    print(error_vals)
-	    plt.imshow(r_image)
-	    plt.draw()
-	    plt.grid('off')
-	    plt.axis('off')
-	    plt.pause(0.001)
+		r_image = z_sample(Gs,cur_z)
+		total_grid.append(r_image)
+		z_vectors.append(cur_z)
+		imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(exp_iter + 1)+".png", r_image)
+		error_vals.append(pixel_error(r_image, o_image))
+		print(error_vals)
+		plt.imshow(r_image)
+		plt.draw()
+		plt.grid('off')
+		plt.axis('off')
+		plt.pause(0.001)
 	    
 	gen_grid_vis(o_image, first_image, total_grid, num_trials, experimentNum)
 
