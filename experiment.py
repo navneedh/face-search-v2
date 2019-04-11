@@ -1,5 +1,4 @@
 import tensorflow as tf
-# from google.colab import files
 from scipy.misc import imsave
 import matplotlib.pyplot as plt
 import numpy as np
@@ -170,7 +169,7 @@ def gen_grid_vis(original_image, first_image, ordered_images, num_trials, experi
                 new_im.paste(im, (j,i))
             index += 1
         
-    new_im.save("./exp" + str(experimentNum) + "/data.png")
+    new_im.save("./exp" + str(experimentNum) + "/data-" + str(experimentNum)+".png")
 
 def pixel_error(image1, image2):
     difference = image1 - image2
@@ -207,7 +206,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	cur_z = random_vector()
 	
-	print("Reconstructed Image", 0)
+	print("Reconstructed Image: ", 0)
 	r_image = z_sample(Gs, cur_z)
 	first_image = r_image
 	imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(1)+".png", r_image)
@@ -218,10 +217,9 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	for exp_iter in range(1,num_trials + 1):
 
-		print("Generating noise level option examples from least noise to most noise")
+		print("Generating noise level options - Least Noise (1): Images 1-3, Middle Noise (2): Images 4-6, High Noise (3): Images 7-9")
 		present_noise_choices(cur_z, exp_iter,experimentNum)
-		print("Input integer between 1-3 for desired noise level")
-		print("1: Least Noise - 3: Most Noise")
+		print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
 		raw_noise_level = input()
 		if int(raw_noise_level) == 1:
 		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, 0.5)
@@ -231,6 +229,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, 8)
 		temp_grid =  [0] * 6 
 
+		print("Input rankings 1 (least similar) - 6 (most similar) of first 6 images to compare to last image")
 		# use commas to separate ranking scores 
 		raw_rankings = input() 
 		rankings = np.array([int(x) for x in raw_rankings.split(",")])
@@ -256,7 +255,6 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		z_vectors.append(cur_z)
 		imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(exp_iter + 1)+".png", r_image)
 		error_vals.append(pixel_error(r_image, o_image))
-		print(error_vals)
 		plt.imshow(r_image)
 		plt.draw()
 		plt.grid('off')
