@@ -88,6 +88,64 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, noise_level = 1):
     return noisyVecs, noisyImages, noises
 
 
+def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
+    noise = 0.99
+    seed = np.random.randint(4000)
+    np.random.seed(seed)
+    noisyVecs = []
+    noises = []
+    noisyImages = []
+    new_im = Image.new('RGB', (576,64))
+    index = 0
+    print("Generating grid of noisy images ...")
+    for i in range(0,192,64):
+        np.random.seed(np.random.randint(4362634))
+        noise_val = (random_vector() * 0.5) #most noise added
+        zs = cur_z + noise_val
+        zs = np.clip(zs, -5, 5)
+        p_image = z_sample(Gs, zs)
+        noises.append(noise_val)
+        noisyVecs.append(zs)
+        noisyImages.append(p_image)
+        im = Image.fromarray(p_image)
+        im.thumbnail((64,64))
+        new_im.paste(im, (i,0))
+        index += 1
+    for i in range(192,384,64):
+        np.random.seed(np.random.randint(4362634))
+        noise_val = (random_vector() * 1.3) #most noise added
+        zs = cur_z + noise_val
+        zs = np.clip(zs, -5, 5)
+        p_image = z_sample(Gs, zs)
+        noises.append(noise_val)
+        noisyVecs.append(zs)
+        noisyImages.append(p_image)
+        im = Image.fromarray(p_image)
+        im.thumbnail((64,64))
+        new_im.paste(im, (i,0))
+        index += 1
+	for i in range(384,576,64):
+        np.random.seed(np.random.randint(4362634))
+        noise_val = (random_vector() * 8) #most noise added
+        zs = cur_z + noise_val
+        zs = np.clip(zs, -5, 5)
+        p_image = z_sample(Gs, zs)
+        noises.append(noise_val)
+        noisyVecs.append(zs)
+        noisyImages.append(p_image)
+        im = Image.fromarray(p_image)
+        im.thumbnail((64,64))
+        new_im.paste(im, (i,0))
+        index += 1
+
+        
+    new_im.save("./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png")
+    plt.imshow(new_im)
+    plt.draw()
+    plt.pause(0.001)
+    return noisyVecs, noisyImages, noises
+
+
 def gen_grid_vis(original_image, first_image, ordered_images, num_trials, experimentNum):
     new_im = Image.new('RGB', (458, num_trials * 64 + 128))
     index = 0
@@ -118,7 +176,6 @@ def pixel_error(image1, image2):
 
 def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha = 0.99):
 
-
 	os.mkdir("exp" + str(experimentNum))
 
 	#Generate and save original image that you will 
@@ -127,7 +184,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	original_z = random_vector()
 
-	print("Generating original image ...")
+	print("Generating Image to Reconstruct")
 
 	o_image = z_sample(Gs, original_z)
 	imsave("./" + "exp" + str(experimentNum) + "/original.png", o_image)
@@ -142,6 +199,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	cur_z = random_vector()
 	
+	print("Reconstructed Image", 0)
 	r_image = z_sample(Gs, cur_z)
 	first_image = r_image
 	imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(1)+".png", r_image)
@@ -151,8 +209,11 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	plt.pause(0.001)
 
 	for exp_iter in range(1,num_trials + 1):
+
+		print("Generating noise level option examples from least noise to most noise")
+		present_noise_choices(cur_z, exp_iter,experimentNum)
 	  
-	    print("Input value between 1-3 for desired noise level")
+	    print("Input integer between 1-3 for desired noise level")
 	    print("1: Least Noise - 3: Most Noise")
 	    raw_noise_level = input()
 	    if int(raw_noise_level) == 1:
@@ -182,7 +243,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	    cur_z = cur_z + learning_rate * (noisyVecsSum/(6 * noise))
 	    
 	    
-	    print("Generating reconstructed image ...")
+		print("Reconstructed Image", exp_iter)
 	    r_image = z_sample(Gs,cur_z)
 	    total_grid.append(r_image)
 	    z_vectors.append(cur_z)
