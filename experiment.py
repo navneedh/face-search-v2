@@ -57,14 +57,14 @@ def z_sample(Gs, z):
 def random_vector():
     return np.random.normal(0,1,512).reshape(1,512)
 
-def gen_grid_exp(cur_z, exp_iter, experimentNum, noise_level = 1):
+def gen_grid_exp(cur_z, exp_iter, experimentNum, original, noise_level = 1):
     noise = 0.99
     seed = np.random.randint(4000)
     np.random.seed(seed)
     noisyVecs = []
     noises = []
     noisyImages = []
-    new_im = Image.new('RGB', (384,64))
+    new_im = Image.new('RGB', (512,64))
     index = 0
     print("Generating grid of noisy images ...")
     for i in range(0,384,64):
@@ -80,6 +80,11 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, noise_level = 1):
         im.thumbnail((64,64))
         new_im.paste(im, (i,0))
         index += 1
+
+    im = Image.fromarray(original)
+    im.thumbnail((64,64))
+    new_im.paste(im, (448,0))
+    index += 1
         
     new_im.save("./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png")
     plt.imshow(new_im)
@@ -197,6 +202,8 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	error_vals = [] # pixel error w.r.t original image after each iteration
 	total_grid = []
 
+	np.random.seed(1923438817)
+
 	cur_z = random_vector()
 	
 	print("Reconstructed Image", 0)
@@ -216,11 +223,11 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		print("1: Least Noise - 3: Most Noise")
 		raw_noise_level = input()
 		if int(raw_noise_level) == 1:
-		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, 0.5)
+		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image 0.5)
 		elif int(raw_noise_level) == 2:
-		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum,1.3)
+		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, 1.3)
 		else:
-		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, 8)
+		    noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, 8)
 		temp_grid =  [0] * 6 
 
 		# use commas to separate ranking scores 
