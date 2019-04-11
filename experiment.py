@@ -102,7 +102,6 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
     noisyImages = []
     new_im = Image.new('RGB', (576,64))
     index = 0
-    print("Generating grid of noisy images ...")
     for i in range(0,192,64):
         np.random.seed(np.random.randint(4362634))
         noise_val = (random_vector() * 0.5) #most noise added
@@ -189,13 +188,15 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	original_z = random_vector()
 
-	print("Generating Image to Reconstruct")
+	print("Generating Image to Reconstruct ... ")
 
 	o_image = z_sample(Gs, original_z)
 	imsave("./" + "exp" + str(experimentNum) + "/original.png", o_image)
 	plt.imshow(o_image)
 	plt.grid('off')
 	plt.axis('off')
+	plt.draw()
+	plt.pause(0.001)
 
 	#Keep track of experimental data
 	z_vectors = [] # z vector after each iteration
