@@ -212,7 +212,6 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		print("Generating noise level option examples from least noise to most noise")
 		present_noise_choices(cur_z, exp_iter,experimentNum)
-	  
 	    print("Input integer between 1-3 for desired noise level")
 	    print("1: Least Noise - 3: Most Noise")
 	    raw_noise_level = input()
