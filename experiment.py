@@ -13,8 +13,6 @@ import os
 # import sample as sp 
 # import util as ut
 
-experimentNum = 29
-
 
 # Initialize TensorFlow
 tflib.init_tf()
@@ -59,7 +57,7 @@ def z_sample(Gs, z):
 def random_vector():
     return np.random.normal(0,1,512).reshape(1,512)
 
-def gen_grid_exp(cur_z, exp_iter, noise_level = 1):
+def gen_grid_exp(cur_z, exp_iter, experimentNum, noise_level = 1):
     noise = 0.99
     seed = np.random.randint(4000)
     np.random.seed(seed)
@@ -90,7 +88,7 @@ def gen_grid_exp(cur_z, exp_iter, noise_level = 1):
     return noisyVecs, noisyImages, noises
 
 
-def gen_grid_vis(original_image, first_image, ordered_images, num_trials):
+def gen_grid_vis(original_image, first_image, ordered_images, num_trials, experimentNum):
     new_im = Image.new('RGB', (458, num_trials * 64 + 128))
     index = 0
     im = Image.fromarray(first_image)
@@ -120,13 +118,6 @@ def pixel_error(image1, image2):
 
 def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha = 0.99):
 
-	# Initialize TensorFlow
-	tflib.init_tf()
-
-	# Load pre-trained network.
-	url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ' # karras2019stylegan-ffhq-1024x1024.pkl
-	with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
-	    _G, _D, Gs = pickle.load(f)
 
 	os.mkdir("exp" + str(experimentNum))
 
@@ -165,11 +156,11 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	    print("1: Least Noise - 3: Most Noise")
 	    raw_noise_level = input()
 	    if int(raw_noise_level) == 1:
-	        noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, 0.5)
+	        noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, 0.5)
 	    elif int(raw_noise_level) == 2:
-	        noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, 1.3)
+	        noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum,1.3)
 	    else:
-	        noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, 8)
+	        noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, 8)
 	    temp_grid =  [0] * 6 
 	    
 	    # use commas to separate ranking scores 
@@ -204,7 +195,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	    plt.axis('off')
 	    plt.pause(0.001)
 	    
-	gen_grid_vis(o_image, first_image, total_grid, num_trials)
+	gen_grid_vis(o_image, first_image, total_grid, num_trials, experimentNum)
 
 
 if __name__ == "__main__":
