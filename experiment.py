@@ -46,7 +46,7 @@ def get_rating_results(buttons):
 	for i in range(6):
 		for j in range(6):
 			if buttons[i][j].value == 1:
-				# print("Image " + str(i+1) + " had rating " + str(j+1))
+				print("Image " + str(i+1) + " had rating " + str(j+1))
 				ratings.append(j+1)
 	
 	return ratings
@@ -272,7 +272,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		# use commas to separate ranking scores 
 		button_display, buttons = view_buttons()
-		display(button_display)
+		button_display
 		time.sleep(5)
 		rankings = get_rating_results(buttons)
 		while len(rankings) != 6:
