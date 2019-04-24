@@ -282,6 +282,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		button.on_click(on_button_clicked)
 		time.sleep(5)
 
+		rankings = get_rating_results(buttons)
 		while len(rankings) != 6:
 			time.sleep(2)
 			print(len(rankings))
