@@ -268,14 +268,14 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		temp_grid =  [0] * 6 
 
 		print("Input rankings 1 (least similar) - 6 (most similar) of first 6 images to compare to last image")
-		display = view_buttons()
+
 		# use commas to separate ranking scores 
 		display, buttons = view_buttons()
-		# rankings = get_rating_results(buttons)
-		# while len(rankings) != 6:
-		#     rankings = get_rating_results(buttons)
+		rankings = get_rating_results(buttons)
+		while len(rankings) != 6:
+			rankings = get_rating_results(buttons)
 
-		# rankings = np.array(rankings)
+		rankings = np.array(rankings)
 		# raw_rankings = input() 
 		# rankings = np.array([int(x) for x in raw_rankings.split(",")])
 
