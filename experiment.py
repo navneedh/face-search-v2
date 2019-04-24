@@ -9,8 +9,46 @@ import dnnlib.tflib as tflib
 import config as config
 import pickle
 import os  
+# some handy functions to use along widgets
+from IPython.display import display, Markdown, clear_output
+# widget packages
+import ipywidgets as widgets
+# defining some widgets
 # import sample as sp 
 # import util as ut
+
+def create_image_ranking_buttons():
+  image_ranks = []
+  for i in range(6):
+    image_ranks += [widgets.Checkbox(description=str(i),)]
+    
+  return image_ranks
+
+def construct_all_buttons():
+  all_ranks = []
+  for i in range(6):
+    all_ranks += [create_image_ranking_buttons()]
+   
+  return all_ranks
+
+def view_buttons():
+  verticalBoxButtons = []
+  buttons = construct_all_buttons()
+  for i in range(6):
+    verticalBoxButtons.append(widgets.VBox(buttons[i]))
+    
+  return widgets.HBox(verticalBoxButtons), buttons 
+
+
+def get_rating_results(buttons):
+  ratings = []
+  for i in range(6):
+    for j in range(6):
+      if buttons[i][j].value == 1:
+        # print("Image " + str(i+1) + " had rating " + str(j+1))
+        ratings.append(j+1)
+    
+  return ratings
 
 
 # Initialize TensorFlow
@@ -231,8 +269,17 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		print("Input rankings 1 (least similar) - 6 (most similar) of first 6 images to compare to last image")
 		# use commas to separate ranking scores 
-		raw_rankings = input() 
-		rankings = np.array([int(x) for x in raw_rankings.split(",")])
+        display, buttons = view_buttons()
+        display
+
+
+        rankings = get_rating_results(buttons)
+        while len(rankings) != 6:
+            rankings = get_rating_results(buttons)
+
+        rankings = np.array(rankings)
+		# raw_rankings = input() 
+		# rankings = np.array([int(x) for x in raw_rankings.split(",")])
 
 		#for visualization purposes 
 		for i,r in enumerate(rankings):
