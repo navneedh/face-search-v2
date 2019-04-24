@@ -20,7 +20,7 @@ import ipywidgets as widgets
 def create_image_ranking_buttons():
 	image_ranks = []
 	for i in range(6):
-		image_ranks += [widgets.Checkbox(description=str(i),)]
+		image_ranks += [widgets.Checkbox(description=str(i+1),)]
 	
 	return image_ranks
 
@@ -274,6 +274,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		display(button_display)
 		rankings = get_rating_results(buttons)
 		while len(rankings) != 6:
+			print(len(rankings))
 			rankings = get_rating_results(buttons)
 
 		rankings = np.array(rankings)
