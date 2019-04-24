@@ -9,6 +9,7 @@ import dnnlib.tflib as tflib
 import config as config
 import pickle
 import os  
+import time 
 # some handy functions to use along widgets
 from IPython.display import display, Markdown, clear_output
 # widget packages
@@ -272,8 +273,10 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		# use commas to separate ranking scores 
 		button_display, buttons = view_buttons()
 		display(button_display)
+		time.sleep(5)
 		rankings = get_rating_results(buttons)
 		while len(rankings) != 6:
+			time.sleep(2)
 			print(len(rankings))
 			rankings = get_rating_results(buttons)
 
