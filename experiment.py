@@ -142,7 +142,6 @@ def gen_images_to_rank(image_matrices, original, indexToRemove):
 	im = Image.fromarray(original)
 	im.thumbnail((64,64))
 	new_im.paste(im, ((len(image_matrices) + 1) * 64,0))
-	index += 1
 
 	plt.imshow(new_im)
 	plt.draw()
