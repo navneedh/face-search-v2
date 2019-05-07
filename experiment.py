@@ -132,7 +132,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, noise_level = 1):
 	return noisyVecs, noisyImages, noises
 
 def gen_images_to_rank(image_matrices, original, indexToRemove):
-	del images_matrices[indexToRemove - 1]
+	del image_matrices[indexToRemove - 1]
 	for i in range(0,len(image_matrices),64):
 		im = Image.fromarray(image_matrices[i])
 		im.thumbnail((64,64))
