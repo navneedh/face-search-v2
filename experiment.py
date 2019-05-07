@@ -105,6 +105,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, noise_level = 1):
 	new_im = Image.new('RGB', (512,64))
 	index = 0
 	print("Generating grid of noisy images ...")
+	print("      1    2    3    4    5    6")
 	for i in range(0,384,64):
 		np.random.seed(np.random.randint(4362634))
 		noise_val = (random_vector() * noise_level) #most noise added
@@ -131,7 +132,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, noise_level = 1):
 	return noisyVecs, noisyImages, noises
 
 def gen_images_to_rank(image_matrices, original, indexToRemove):
-	del images[indexToRemove - 1]
+	del images_matrices[indexToRemove - 1]
 	for i in range(0,len(image_matrices),64):
 		im = Image.fromarray(image_matrices[i])
 		im.thumbnail((64,64))
@@ -285,7 +286,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
 		raw_noise_level = input()
 
-		print("      1    2    3    4    5    6")
+		
 		if int(raw_noise_level) == 1:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, 0.5)
 		elif int(raw_noise_level) == 2:
