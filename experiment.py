@@ -135,7 +135,7 @@ def gen_images_to_rank(image_matrices, original, indexToRemove):
 	new_im = Image.new('RGB', ((len(image_matrices) + 2) * 64,64))
 	del image_matrices[indexToRemove - 1]
 	for i in range(0,len(image_matrices) * 64,64):
-		im = Image.fromarray(image_matrices[i])
+		im = Image.fromarray(image_matrices[int(i/64)])
 		im.thumbnail((64,64))
 		new_im.paste(im, (i,0))
 	
