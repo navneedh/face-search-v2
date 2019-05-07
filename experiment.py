@@ -307,6 +307,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 			print("      1    2    3    4    5    6")
 			gen_images_to_rank(noisyImages, o_image, best_image_index)
 
+		print(raw_rankings)
 		rankings = np.array(raw_rankings)
 		#for visualization purposes 
 		for i,r in enumerate(rankings):
