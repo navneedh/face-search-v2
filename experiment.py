@@ -130,6 +130,23 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, noise_level = 1):
 	plt.pause(0.001)
 	return noisyVecs, noisyImages, noises
 
+def gen_images_to_rank(image_matrices, original, indexToRemove):
+	del images[indexToRemove - 1]
+	for i in range(0,len(image_matrices),64):
+		im = Image.fromarray(image_matrices[i])
+		im.thumbnail((64,64))
+		new_im.paste(im, (i,0))
+	
+	im = Image.fromarray(original)
+	im.thumbnail((64,64))
+	new_im.paste(im, (len(image_matrices) + 1,0))
+	index += 1
+
+	plt.imshow(new_im)
+	plt.draw()
+	plt.pause(0.001)
+
+
 
 def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 	noise = 0.99
@@ -215,6 +232,13 @@ def pixel_error(image1, image2):
 	error = np.linalg.norm(difference)
 	return error
 
+def delete_helper(delete_array, index):
+	cur_sum = 0
+	for i, x in enumerate(delete_array):
+		cur_sum += x
+		if cur_sum == index:
+			return i 
+
 
 def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha = 0.99):
 
@@ -268,30 +292,21 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, 8)
 		temp_grid =  [0] * 6 
 
-		print("Input rankings 1 (least similar) - 6 (most similar) of first 6 images to compare to last image")
+		print("1           2         3      4      5          6")
 
-		# use commas to separate ranking scores 
-		button_display, buttons = view_buttons()
-		display(button_display)
-		button = widgets.Button(description="Click when finished!")
-		display(button)
+		raw_rankings = [0,0,0,0,0,0]
+		deleted_array = [1,1,1,1,1,1]
+		for rank in range(6,0,-1):
+			print("Input index of image with highest similarity to original image begining with index 1")
+			best_image_index = int(input())
+			raw_rankings[delete_helper(delete_array, best_image_index)] = rank
+			deleted_array[best_image_index - 1] = 0
+			clear_output()
+			gen_images_to_rank(noisyImages, best_image_index)
+			print("1           2         3      4      5          6")
 
-		def on_button_clicked(b):
-			rankings = get_rating_results(buttons)
 
-		button.on_click(on_button_clicked)
-		time.sleep(5)
-
-		rankings = get_rating_results(buttons)
-		while len(rankings) != 6:
-			time.sleep(2)
-			print(len(rankings))
-			rankings = get_rating_results(buttons)
-
-		rankings = np.array(rankings)
-		# raw_rankings = input() 
-		# rankings = np.array([int(x) for x in raw_rankings.split(",")])
-
+		rankings = np.array(raw_rankings)
 		#for visualization purposes 
 		for i,r in enumerate(rankings):
 			temp_grid[r - 1] = noisyImages[i]
