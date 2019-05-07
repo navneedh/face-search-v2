@@ -284,6 +284,8 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		present_noise_choices(cur_z, exp_iter,experimentNum)
 		print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
 		raw_noise_level = input()
+
+		print("      1    2    3    4    5    6")
 		if int(raw_noise_level) == 1:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, 0.5)
 		elif int(raw_noise_level) == 2:
@@ -292,7 +294,6 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, 8)
 		temp_grid =  [0] * 6 
 
-		print("      1    2    3    4    5    6")
 
 		raw_rankings = [0,0,0,0,0,0]
 		deleted_array = [1,1,1,1,1,1]
@@ -302,9 +303,8 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 			raw_rankings[delete_helper(deleted_array, best_image_index)] = rank
 			deleted_array[best_image_index - 1] = 0
 			clear_output()
-			gen_images_to_rank(noisyImages, original, best_image_index)
 			print("      1    2    3    4    5    6")
-
+			gen_images_to_rank(noisyImages, o_image, best_image_index)
 
 		rankings = np.array(raw_rankings)
 		#for visualization purposes 
