@@ -14,6 +14,7 @@ import time
 from IPython.display import display, Markdown, clear_output
 # widget packages
 import ipywidgets as widgets
+from IPython.core.display import Image, display
 
 # Initialize TensorFlow
 tflib.init_tf()
