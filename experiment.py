@@ -14,7 +14,7 @@ import time
 from IPython.display import display, Markdown, clear_output
 # widget packages
 import ipywidgets as widgets
-from IPython.core.display import Image, display
+from IPython.core.display import Image as Imdisplay
 
 # Initialize TensorFlow
 tflib.init_tf()
@@ -180,7 +180,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 
 		
 	new_im.save("./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png")
-	display(Image(filename = "./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png", width=1900, unconfined=True))
+	display(Imdisplay(filename = "./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png", width=1900, unconfined=True))
 	plt.imshow(new_im, aspect = "equal")
 	plt.grid('off')
 	plt.axis('off')
