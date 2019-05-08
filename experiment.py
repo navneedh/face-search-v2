@@ -305,11 +305,10 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 			raw_rankings[delete_helper(deleted_array, best_image_index)] = rank
 			deleted_array[delete_helper(deleted_array, best_image_index)] = 0
 			clear_output()
-			print("      1    2    3    4    5    6")
 			if rank != 1:
 				gen_images_to_rank(noisyImages, o_image, best_image_index)
 
-		print(len(noisyImages))
+		print(raw_rankings)
 		rankings = np.array(raw_rankings)
 		#for visualization purposes 
 		for i,r in enumerate(rankings):
