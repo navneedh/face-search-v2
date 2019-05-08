@@ -133,7 +133,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, noise_level = 1):
 	return noisyVecs, noisyImages, noises
 
 def gen_images_to_rank(image_matrices, original, indexToRemove):
-	new_im = Image.new('RGB', ((len(image_matrices) + 2) * 64,64))
+	new_im = Image.new('RGB', ((len(image_matrices) + 1) * 64,64))
 	del image_matrices[indexToRemove - 1]
 	for i in range(0,len(image_matrices) * 64,64):
 		im = Image.fromarray(image_matrices[int(i/64)])
@@ -306,7 +306,8 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 			deleted_array[delete_helper(deleted_array, best_image_index)] = 0
 			clear_output()
 			print("      1    2    3    4    5    6")
-			gen_images_to_rank(noisyImages, o_image, best_image_index)
+			if rank != 1:
+				gen_images_to_rank(noisyImages, o_image, best_image_index)
 
 		print(len(noisyImages))
 		rankings = np.array(raw_rankings)
