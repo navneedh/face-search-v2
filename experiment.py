@@ -95,7 +95,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, noise_level = 1):
 		new_im.paste(im, (i,0))
 		
 
-	print("SIZE", noisyImages[0].size)
+	print("SIZE", noisyImages[0].shape)
 
 	im = Image.fromarray(original)
 	im.thumbnail((128,128))
@@ -179,7 +179,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 
 		
 	new_im.save("./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png")
-	plt.imshow(new_im)
+	plt.imshow(new_im, aspect = "preserve")
 	plt.grid('off')
 	plt.axis('off')
 	plt.draw()
