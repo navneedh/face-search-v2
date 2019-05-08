@@ -284,7 +284,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		print("Generating noise level options - Least Noise (1): Images 1-3, Middle Noise (2): Images 4-6, High Noise (3): Images 7-9")
 		present_noise_choices(cur_z, exp_iter,experimentNum)
-    print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
+		print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
 		raw_noise_level = input()
 
 		
@@ -295,13 +295,13 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		else:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, 8)
 		temp_grid =  [0] * 6 
-    
-    copyNoisyImages = list(noisyImages)
-    raw_rankings = [0,0,0,0,0,0]
-    deleted_array = [1,1,1,1,1,1]
-    for rank in range(6,0,-1):
-      print("Input index of image with highest similarity to original image begining with index 1")
-	    best_image_index = int(input())
+
+		copyNoisyImages = list(noisyImages)
+		raw_rankings = [0,0,0,0,0,0]
+		deleted_array = [1,1,1,1,1,1]
+		for rank in range(6,0,-1):
+			print("Input index of image with highest similarity to original image begining with index 1")
+			best_image_index = int(input())
 			raw_rankings[delete_helper(deleted_array, best_image_index)] = rank
 			deleted_array[delete_helper(deleted_array, best_image_index)] = 0
 			clear_output()
@@ -340,6 +340,6 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	print("Experiment Complete!")    
 	gen_grid_vis(o_image, first_image, total_grid, num_trials, experimentNum)
-	
+
 if __name__ == "__main__":
 	run(12)
