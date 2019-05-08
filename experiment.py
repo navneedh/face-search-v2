@@ -179,7 +179,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 
 		
 	new_im.save("./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png")
-	plt.imshow(new_im, aspect = "preserve")
+	plt.imshow(new_im, aspect = "equal")
 	plt.grid('off')
 	plt.axis('off')
 	plt.draw()
