@@ -18,6 +18,18 @@ import ipywidgets as widgets
 # import sample as sp 
 # import util as ut
 
+
+
+# Initialize TensorFlow
+tflib.init_tf()
+
+# Load pre-trained network.
+url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ' # karras2019stylegan-ffhq-1024x1024.pkl
+with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
+	_G, _D, Gs = pickle.load(f)
+	# _G = Instantaneous snapshot of the generator. Mainly useful for resuming a previous training run.
+	# _D = Instantaneous snapshot of the discriminator. Mainly useful for resuming a previous training run.
+	# Gs = Long-term average of the generator. Yields higher-quality results than the instantaneous snapshot.
 def create_image_ranking_buttons():
 	image_ranks = []
 	for i in range(6):
@@ -51,17 +63,6 @@ def get_rating_results(buttons):
 	
 	return ratings
 
-
-# Initialize TensorFlow
-tflib.init_tf()
-
-# Load pre-trained network.
-url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ' # karras2019stylegan-ffhq-1024x1024.pkl
-with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
-	_G, _D, Gs = pickle.load(f)
-	# _G = Instantaneous snapshot of the generator. Mainly useful for resuming a previous training run.
-	# _D = Instantaneous snapshot of the discriminator. Mainly useful for resuming a previous training run.
-	# Gs = Long-term average of the generator. Yields higher-quality results than the instantaneous snapshot.
 
 def random_sample(Gs):
 	# Pick latent vector.
@@ -283,7 +284,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		print("Generating noise level options - Least Noise (1): Images 1-3, Middle Noise (2): Images 4-6, High Noise (3): Images 7-9")
 		present_noise_choices(cur_z, exp_iter,experimentNum)
-		print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
+    print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
 		raw_noise_level = input()
 
 		
@@ -294,24 +295,24 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		else:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, 8)
 		temp_grid =  [0] * 6 
-
-
-		raw_rankings = [0,0,0,0,0,0]
-		deleted_array = [1,1,1,1,1,1]
-		for rank in range(6,0,-1):
-			print("Input index of image with highest similarity to original image begining with index 1")
-			best_image_index = int(input())
+    
+    copyNoisyImages = list(noisyImages)
+    raw_rankings = [0,0,0,0,0,0]
+    deleted_array = [1,1,1,1,1,1]
+    for rank in range(6,0,-1):
+      print("Input index of image with highest similarity to original image begining with index 1")
+	    best_image_index = int(input())
 			raw_rankings[delete_helper(deleted_array, best_image_index)] = rank
-			deleted_array[best_image_index - 1] = 0
+			deleted_array[delete_helper(deleted_array, best_image_index)] = 0
 			clear_output()
 			print("      1    2    3    4    5    6")
 			gen_images_to_rank(noisyImages, o_image, best_image_index)
 
-		print(raw_rankings)
+		print(len(noisyImages))
 		rankings = np.array(raw_rankings)
 		#for visualization purposes 
 		for i,r in enumerate(rankings):
-			temp_grid[r - 1] = noisyImages[i]
+			temp_grid[r - 1] = copyNoisyImages[i]
 		total_grid += temp_grid
 
 		rankings = (rankings - rankings.mean())/rankings.std()
@@ -339,7 +340,6 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	print("Experiment Complete!")    
 	gen_grid_vis(o_image, first_image, total_grid, num_trials, experimentNum)
-
-
+	
 if __name__ == "__main__":
 	run(12)
