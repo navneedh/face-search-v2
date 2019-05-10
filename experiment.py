@@ -21,6 +21,7 @@ tflib.init_tf()
 
 # Load pre-trained network.
 url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ' # karras2019stylegan-ffhq-1024x1024.pkl
+https://drive.google.com/open?id=1TYZQ8I6gKch923aZslg1_TIdUDBQHH-H
 with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
 	_G, _D, Gs = pickle.load(f)
 	# _G = Instantaneous snapshot of the generator. Mainly useful for resuming a previous training run.
@@ -63,14 +64,14 @@ def z_sample(Gs, z):
 def random_vector():
 	return np.random.normal(0,1,512).reshape(1,512)
 
-def gen_grid_exp(cur_z, exp_iter, experimentNum, original, noise_level = 1):
+def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_image, noise_level = 1):
 	noise = 0.99
 	seed = np.random.randint(4000)
 	np.random.seed(seed)
 	noisyVecs = []
 	noises = []
 	noisyImages = []
-	new_im = Image.new('RGB', (1024,128))
+	new_im = Image.new('RGB', (1152,128))
 	index = 0
 	print("Generating grid of noisy images ...")
 	print("      1    2    3    4    5    6")
@@ -87,20 +88,27 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, noise_level = 1):
 		im.thumbnail((128,128))
 		new_im.paste(im, (i,0))		
 
-	original_copy = original
-	original_copy.fill(255)
+	# need to fix this bottleneck piece of code
+	white_image = z_sample(Gs, random_vector())
+	white_image.fill(255)
 
 	#add blank image between proposals and original
-	im = Image.fromarray(original)
+	im = Image.fromarray(white_image)
+	noisyImages.append(white_image)
 	im.thumbnail((128,128))
 	new_im.paste(im, (768,0))
 
-	print("here")
-	#add original image to grid
-	im = Image.fromarray(original)
+	#add current reconstructed image to grid 	
+	im = Image.fromarray(cur_reconstructed_image)
+	noisyImages.append(cur_reconstructed_image)
 	im.thumbnail((128,128))
 	new_im.paste(im, (896,0))
-	index += 1
+
+	#add original image to grid
+	im = Image.fromarray(original)
+	noisyImages.append(original)
+	im.thumbnail((128,128))
+	new_im.paste(im, (1024,0))
 		
 	new_im.save("./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png")
 	display(Imdisplay(filename = "./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png", width=1000, unconfined=True))
@@ -273,11 +281,11 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		
 		if int(raw_noise_level) == 1:
-			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, 0.5)
+			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 0.5)
 		elif int(raw_noise_level) == 2:
-			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, 1.3)
+			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 1.3)
 		else:
-			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, 8)
+			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 8)
 		temp_grid =  [0] * 6 
 
 		copyNoisyImages = list(noisyImages)
