@@ -20,8 +20,9 @@ from IPython.core.display import Image as Imdisplay
 tflib.init_tf()
 
 # Load pre-trained network.
-url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ' # karras2019stylegan-ffhq-1024x1024.pkl
-https://drive.google.com/open?id=1TYZQ8I6gKch923aZslg1_TIdUDBQHH-H
+
+url = 'http://cocosci.princeton.edu/jpeterson/temp_file_hosting/263e666dc20e26dcbfa514733c1d1f81_karras2019stylegan-ffhq-1024x1024.pkl' # karras2019stylegan-ffhq-1024x1024.pkl
+# https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ
 with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
 	_G, _D, Gs = pickle.load(f)
 	# _G = Instantaneous snapshot of the generator. Mainly useful for resuming a previous training run.
