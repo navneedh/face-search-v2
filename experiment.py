@@ -281,6 +281,8 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	for exp_iter in range(1,num_trials + 1):
 
+
+
 		print("Generating noise level options ... ") 
 		present_noise_choices(cur_z, exp_iter,experimentNum)
 		print("Least Noise (1): Images 1-3, Middle Noise (2): Images 4-6, High Noise (3): Images 7-9")
@@ -326,6 +328,15 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		#update step 
 		learning_rate = (alpha**(exp_iter/2))
 		cur_z = cur_z + learning_rate * (noisyVecsSum/(6 * noise))
+
+		print("Original Image")
+		o_image = z_sample(Gs, original_z)
+		imsave("./" + "exp" + str(experimentNum) + "/original.png", o_image)
+		plt.imshow(o_image)
+		plt.grid('off')
+		plt.axis('off')
+		plt.draw()
+		plt.pause(0.001)
 
 
 		print("Reconstructed Image #", exp_iter + 1)
