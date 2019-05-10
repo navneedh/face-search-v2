@@ -28,8 +28,9 @@ with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
 	# _D = Instantaneous snapshot of the discriminator. Mainly useful for resuming a previous training run.
 	# Gs = Long-term average of the generator. Yields higher-quality results than the instantaneous snapshot.
 
-def create_white_image():
-	return np.full((1024,1024,3),255)
+
+white_image = z_sample(Gs, random_vector())
+white_image.fill(255)
 
 
 def random_sample(Gs):
@@ -88,10 +89,6 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 		im.thumbnail((128,128))
 		new_im.paste(im, (i,0))		
 
-	# need to fix this bottleneck piece of code
-	white_image = z_sample(Gs, random_vector())
-	white_image.fill(255)
-
 	#add blank image between proposals and original
 	im = Image.fromarray(white_image)
 	noisyImages.append(white_image)
@@ -146,11 +143,11 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 	noisyVecs = []
 	noises = []
 	noisyImages = []
-	new_im = Image.new('RGB', (1152,128))
+	new_im = Image.new('RGB', (1408,128))
 	index = 0
 	for i in range(0,384,128):
 		np.random.seed(np.random.randint(4362634))
-		noise_val = (random_vector() * 0.5) #most noise added
+		noise_val = (random_vector() * 0.4) #most noise added
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
@@ -160,8 +157,13 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 		im = Image.fromarray(p_image)
 		im.thumbnail((128,128))
 		new_im.paste(im, (i,0))
-		index += 1
-	for i in range(384,768,128):
+
+
+	im = Image.fromarray(white_image)
+	im.thumbnail((128,128))
+	new_im.paste(im, (384,0))
+
+	for i in range(512,896,128):
 		np.random.seed(np.random.randint(4362634))
 		noise_val = (random_vector() * 1.3) #most noise added
 		zs = cur_z + noise_val
@@ -173,8 +175,12 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 		im = Image.fromarray(p_image)
 		im.thumbnail((128,128))
 		new_im.paste(im, (i,0))
-		index += 1
-	for i in range(768,1152,128):
+
+	im = Image.fromarray(white_image)
+	im.thumbnail((128,128))
+	new_im.paste(im, (896,0))
+
+	for i in range(1024,1408,128):
 		np.random.seed(np.random.randint(4362634))
 		noise_val = (random_vector() * 8) #most noise added
 		zs = cur_z + noise_val
@@ -186,12 +192,11 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 		im = Image.fromarray(p_image)
 		im.thumbnail((128,128))
 		new_im.paste(im, (i,0))
-		index += 1
 
 		
 	new_im.save("noise_choices.png")
 	display(Imdisplay(filename = "noise_choices.png", width=1000, unconfined=True))
-	# plt.imshow(new_im, aspect = "equal")
+	# plt.imshow(new_im)
 	plt.grid('off')
 	plt.axis('off')
 	plt.draw()
@@ -281,7 +286,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		
 		if int(raw_noise_level) == 1:
-			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 0.5)
+			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 0.4)
 		elif int(raw_noise_level) == 2:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 1.3)
 		else:
