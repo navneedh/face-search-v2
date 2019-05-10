@@ -128,7 +128,7 @@ def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
 	new_im.paste(im, ((len(image_matrices) + 1) * 128,0))
 
 	new_im.save("temp_save.png")
-	display(Imdisplay(filename = "temp_save.png", width=1000/iteration + (iteration * 30), unconfined=True))
+	display(Imdisplay(filename = "temp_save.png", width=1000/(iteration * 0.5) + (iteration * 30), unconfined=True))
 	# plt.imshow(new_im)
 	plt.grid('off')
 	plt.axis('off')
