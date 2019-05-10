@@ -27,16 +27,8 @@ with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
 	# _D = Instantaneous snapshot of the discriminator. Mainly useful for resuming a previous training run.
 	# Gs = Long-term average of the generator. Yields higher-quality results than the instantaneous snapshot.
 
-
-def get_rating_results(buttons):
-	ratings = []
-	for i in range(6):
-		for j in range(6):
-			if buttons[i][j].value == 1:
-				print("Image " + str(i+1) + " had rating " + str(j+1))
-				ratings.append(j+1)
-	
-	return ratings
+def create_white_image():
+	return np.full((1024,1024,3),255)
 
 
 def random_sample(Gs):
@@ -96,15 +88,22 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, noise_level = 1):
 		new_im.paste(im, (i,0))
 		
 
-	print("SIZE", noisyImages[0].shape)
 
+
+	#add blank image between proposals and original
+	im = Image.fromarray(create_white_image())
+	im.thumbnail((128,128))
+	new_im.paste(im, (768,0))
+
+	#add original image to grid
 	im = Image.fromarray(original)
 	im.thumbnail((128,128))
 	new_im.paste(im, (896,0))
 	index += 1
 		
 	new_im.save("./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png")
-	plt.imshow(new_im)
+	display(Imdisplay(filename = "./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png", width=1000, unconfined=True))
+	# plt.imshow(new_im)
 	plt.draw()
 	plt.pause(0.001)
 	return noisyVecs, noisyImages, noises
@@ -121,7 +120,9 @@ def gen_images_to_rank(image_matrices, original, indexToRemove):
 	im.thumbnail((128,128))
 	new_im.paste(im, ((len(image_matrices) + 1) * 128,0))
 
-	plt.imshow(new_im)
+	new_im.save("temp_save.png")
+	display(Imdisplay(filename = "temp_save.png", width=1000, unconfined=True))
+	# plt.imshow(new_im)
 	plt.grid('off')
 	plt.axis('off')
 	plt.draw()
@@ -179,9 +180,9 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 		index += 1
 
 		
-	new_im.save("./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png")
-	display(Imdisplay(filename = "./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png", width=1000, unconfined=True))
-	plt.imshow(new_im, aspect = "equal")
+	new_im.save("noise_choices.png")
+	display(Imdisplay(filename = "noise_choices.png", width=1000, unconfined=True))
+	# plt.imshow(new_im, aspect = "equal")
 	plt.grid('off')
 	plt.axis('off')
 	plt.draw()
