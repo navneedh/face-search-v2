@@ -180,7 +180,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 
 		
 	new_im.save("./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png")
-	display(Imdisplay(filename = "./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png", width=1900, unconfined=True))
+	display(Imdisplay(filename = "./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png", width=1000, unconfined=True))
 	plt.imshow(new_im, aspect = "equal")
 	plt.grid('off')
 	plt.axis('off')
