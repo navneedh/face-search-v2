@@ -76,7 +76,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 	new_im = Image.new('RGB', (1152,128))
 	index = 0
 	print("Generating grid of noisy images ...")
-	print("      1             2            3            4            5            6                    Reconstructed     Original")
+	print("      1             2            3            4            5            6                    Reconstructed   Original")
 	for i in range(0,768,128):
 		np.random.seed(np.random.randint(4362634))
 		noise_val = (random_vector() * noise_level) #most noise added
@@ -128,7 +128,7 @@ def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
 	new_im.paste(im, ((len(image_matrices) + 1) * 128,0))
 
 	new_im.save("temp_save.png")
-	display(Imdisplay(filename = "temp_save.png", width=1000/iteration, unconfined=True))
+	display(Imdisplay(filename = "temp_save.png", width=1000/iteration + (iteration * 30), unconfined=True))
 	# plt.imshow(new_im)
 	plt.grid('off')
 	plt.axis('off')
