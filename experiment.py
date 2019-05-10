@@ -90,7 +90,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, noise_level = 1):
 
 
 
-	print(type(create_white_image()))
+	print((create_white_image().shape))
 	print(original.shape)
 	#add blank image between proposals and original
 	im = Image.fromarray(create_white_image())
