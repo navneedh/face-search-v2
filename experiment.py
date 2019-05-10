@@ -60,11 +60,11 @@ def z_sample(Gs, z):
 	return images[0]
 
 
-white_image = z_sample(Gs, random_vector())
-white_image.fill(255)
-
 def random_vector():
 	return np.random.normal(0,1,512).reshape(1,512)
+
+white_image = z_sample(Gs, random_vector())
+white_image.fill(255)
 
 def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_image, noise_level = 1):
 	noise = 0.99
