@@ -20,7 +20,7 @@ from IPython.core.display import Image as Imdisplay
 tflib.init_tf()
 
 # Load pre-trained network.
-url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ' # karras2019stylegan-ffhq-1024x1024.pkl
+url = 'https://drive.google.com/open?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ' # karras2019stylegan-ffhq-1024x1024.pkl
 with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
 	_G, _D, Gs = pickle.load(f)
 	# _G = Instantaneous snapshot of the generator. Mainly useful for resuming a previous training run.
@@ -95,6 +95,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, noise_level = 1):
 	im.thumbnail((128,128))
 	new_im.paste(im, (768,0))
 
+	print("here")
 	#add original image to grid
 	im = Image.fromarray(original)
 	im.thumbnail((128,128))
