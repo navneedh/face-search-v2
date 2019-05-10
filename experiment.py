@@ -311,7 +311,6 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 			if rank != 1:
 				gen_images_to_rank(noisyImages, o_image, best_image_index, 6 - rank + 1)
 
-		print(raw_rankings)
 		rankings = np.array(raw_rankings)
 		#for visualization purposes 
 		for i,r in enumerate(rankings):
@@ -328,7 +327,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		cur_z = cur_z + learning_rate * (noisyVecsSum/(6 * noise))
 
 
-		print("Reconstructed Image", exp_iter)
+		print("Reconstructed Image #", exp_iter)
 		r_image = z_sample(Gs,cur_z)
 		total_grid.append(r_image)
 		z_vectors.append(cur_z)
