@@ -29,10 +29,6 @@ with dnnlib.util.open_url(url, cache_dir=config.cache_dir) as f:
 	# Gs = Long-term average of the generator. Yields higher-quality results than the instantaneous snapshot.
 
 
-white_image = z_sample(Gs, random_vector())
-white_image.fill(255)
-
-
 def random_sample(Gs):
 	# Pick latent vector.
 	rnd = np.random.RandomState(5)
@@ -62,6 +58,10 @@ def z_sample(Gs, z):
 	PIL.Image.fromarray(images[0], 'RGB').save(png_filename)
 	return images[0]
 
+
+white_image = z_sample(Gs, random_vector())
+white_image.fill(255)
+
 def random_vector():
 	return np.random.normal(0,1,512).reshape(1,512)
 
@@ -75,7 +75,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 	new_im = Image.new('RGB', (1152,128))
 	index = 0
 	print("Generating grid of noisy images ...")
-	print("      1    2    3    4    5    6")
+	print("      1             2            3            4            5            6                    Reconstructed     Original")
 	for i in range(0,768,128):
 		np.random.seed(np.random.randint(4362634))
 		noise_val = (random_vector() * noise_level) #most noise added
@@ -114,8 +114,8 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 	plt.pause(0.001)
 	return noisyVecs, noisyImages, noises
 
-def gen_images_to_rank(image_matrices, original, indexToRemove):
-	new_im = Image.new('RGB', ((len(image_matrices) + 1) * 128,128))
+def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
+	new_im = Image.new('RGB', ((len(image_matrices) - 1) * 128,128))
 	del image_matrices[indexToRemove - 1]
 	for i in range(0,len(image_matrices) * 128,128):
 		im = Image.fromarray(image_matrices[int(i/128)])
@@ -127,7 +127,7 @@ def gen_images_to_rank(image_matrices, original, indexToRemove):
 	new_im.paste(im, ((len(image_matrices) + 1) * 128,0))
 
 	new_im.save("temp_save.png")
-	display(Imdisplay(filename = "temp_save.png", width=1000, unconfined=True))
+	display(Imdisplay(filename = "temp_save.png", width=1000/iteration, unconfined=True))
 	# plt.imshow(new_im)
 	plt.grid('off')
 	plt.axis('off')
@@ -157,7 +157,6 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 		im = Image.fromarray(p_image)
 		im.thumbnail((128,128))
 		new_im.paste(im, (i,0))
-
 
 	im = Image.fromarray(white_image)
 	im.thumbnail((128,128))
@@ -274,17 +273,20 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(1)+".png", r_image)
 	error_vals.append(pixel_error(r_image, o_image))
 	plt.imshow(r_image)
+	plt.grid('off')
+	plt.axis('off')
 	plt.draw()
 	plt.pause(0.001)
 
 	for exp_iter in range(1,num_trials + 1):
 
-		print("Generating noise level options - Least Noise (1): Images 1-3, Middle Noise (2): Images 4-6, High Noise (3): Images 7-9")
+		print("Generating noise level options ... ") 
 		present_noise_choices(cur_z, exp_iter,experimentNum)
+		print("Least Noise (1): Images 1-3, Middle Noise (2): Images 4-6, High Noise (3): Images 7-9")
 		print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
 		raw_noise_level = input()
 
-		
+
 		if int(raw_noise_level) == 1:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 0.4)
 		elif int(raw_noise_level) == 2:
@@ -298,12 +300,16 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		deleted_array = [1,1,1,1,1,1]
 		for rank in range(6,0,-1):
 			print("Input index of image with highest similarity to original image beginning with index 1")
-			best_image_index = int(input())
+			try:
+				best_image_index = int(input())
+			except:
+				print("Please enter a valid image index")
+				best_image_index = int(input())
 			raw_rankings[delete_helper(deleted_array, best_image_index)] = rank
 			deleted_array[delete_helper(deleted_array, best_image_index)] = 0
 			clear_output()
 			if rank != 1:
-				gen_images_to_rank(noisyImages, o_image, best_image_index)
+				gen_images_to_rank(noisyImages, o_image, best_image_index, 6 - rank + 1)
 
 		print(raw_rankings)
 		rankings = np.array(raw_rankings)
