@@ -308,11 +308,15 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 			print("Input index of image with highest similarity to original image beginning with index 1")
 			try:
 				best_image_index = int(input())
+				raw_rankings[delete_helper(deleted_array, best_image_index)] = rank
+				deleted_array[delete_helper(deleted_array, best_image_index)] = 0
+
 			except:
 				print("Please enter a valid image index")
 				best_image_index = int(input())
-			raw_rankings[delete_helper(deleted_array, best_image_index)] = rank
-			deleted_array[delete_helper(deleted_array, best_image_index)] = 0
+				raw_rankings[delete_helper(deleted_array, best_image_index)] = rank
+				deleted_array[delete_helper(deleted_array, best_image_index)] = 0
+
 			clear_output()
 			if rank != 1:
 				gen_images_to_rank(noisyImages, o_image, best_image_index, 6 - rank + 1)
