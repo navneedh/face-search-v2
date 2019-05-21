@@ -148,7 +148,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 	index = 0
 	for i in range(0,384,128):
 		np.random.seed(np.random.randint(4362634))
-		noise_val = (random_vector() * 0.6) #most noise added
+		noise_val = (random_vector() * 0.8) #most noise added
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
@@ -182,7 +182,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 
 	for i in range(1024,1408,128):
 		np.random.seed(np.random.randint(4362634))
-		noise_val = (random_vector() * 8) #most noise added
+		noise_val = (random_vector() * 7) #most noise added
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
@@ -294,11 +294,11 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		clear_output()
 
 		if int(raw_noise_level) == 1:
-			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 0.6)
+			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 0.8)
 		elif int(raw_noise_level) == 2:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 3.3)
 		else:
-			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 8)
+			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 7)
 		temp_grid =  [0] * 6 
 
 		copyNoisyImages = list(noisyImages)
@@ -332,27 +332,27 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		learning_rate = (alpha**(exp_iter/2))
 		cur_z = cur_z + learning_rate * (noisyVecsSum/(6 * noise))
 
-		print("Original Image")
+		# print("Original Image")
 		o_image = z_sample(Gs, original_z)
 		imsave("./" + "exp" + str(experimentNum) + "/original.png", o_image)
-		plt.imshow(o_image)
-		plt.grid('off')
-		plt.axis('off')
-		plt.draw()
-		plt.pause(0.001)
+		# plt.imshow(o_image)
+		# plt.grid('off')
+		# plt.axis('off')
+		# plt.draw()
+		# plt.pause(0.001)
 
 
-		print("Reconstructed Image #", exp_iter + 1)
+		# print("Reconstructed Image #", exp_iter + 1)
 		r_image = z_sample(Gs,cur_z)
 		total_grid.append(r_image)
 		z_vectors.append(cur_z)
 		imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(exp_iter + 1)+".png", r_image)
-		error_vals.append(pixel_error(r_image, o_image))
-		plt.imshow(r_image)
-		plt.draw()
-		plt.grid('off')
-		plt.axis('off')
-		plt.pause(0.001)
+		# error_vals.append(pixel_error(r_image, o_image))
+		# plt.imshow(r_image)
+		# plt.draw()
+		# plt.grid('off')
+		# plt.axis('off')
+		# plt.pause(0.001)
 
 
 	print("Experiment Complete!")    
