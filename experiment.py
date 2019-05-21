@@ -128,7 +128,7 @@ def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
 	new_im.paste(im, ((len(image_matrices) + 1) * 128,0))
 
 	new_im.save("temp_save.png")
-	display(Imdisplay(filename = "temp_save.png", width=1000/(iteration * 0.7) + (iteration * 10), unconfined=True))
+	display(Imdisplay(filename = "temp_save.png", width=1000/(iteration * 0.8) + (iteration * 10), unconfined=True))
 	# plt.imshow(new_im)
 	plt.grid('off')
 	plt.axis('off')
@@ -148,7 +148,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 	index = 0
 	for i in range(0,384,128):
 		np.random.seed(np.random.randint(4362634))
-		noise_val = (random_vector() * 1.2) #most noise added
+		noise_val = (random_vector() * 0.6) #most noise added
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
@@ -165,7 +165,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 
 	for i in range(512,896,128):
 		np.random.seed(np.random.randint(4362634))
-		noise_val = (random_vector() * 3.8) #most noise added
+		noise_val = (random_vector() * 3.3) #most noise added
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
@@ -294,9 +294,9 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		clear_output()
 
 		if int(raw_noise_level) == 1:
-			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 1.2)
+			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 0.6)
 		elif int(raw_noise_level) == 2:
-			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 3.8)
+			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 3.3)
 		else:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 8)
 		temp_grid =  [0] * 6 
