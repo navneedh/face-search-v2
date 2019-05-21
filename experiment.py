@@ -148,7 +148,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 	index = 0
 	for i in range(0,384,128):
 		np.random.seed(np.random.randint(4362634))
-		noise_val = (random_vector() * 0.4) #most noise added
+		noise_val = (random_vector() * 1.2) #most noise added
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
@@ -165,7 +165,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 
 	for i in range(512,896,128):
 		np.random.seed(np.random.randint(4362634))
-		noise_val = (random_vector() * 1.3) #most noise added
+		noise_val = (random_vector() * 3.8) #most noise added
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
@@ -268,16 +268,18 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	cur_z = random_vector()
 	
-	print("Reconstructed Image: ", 0)
+	# print("Reconstructed Image: ", 0)
 	r_image = z_sample(Gs, cur_z)
 	first_image = r_image
 	imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(1)+".png", r_image)
-	error_vals.append(pixel_error(r_image, o_image))
-	plt.imshow(r_image)
-	plt.grid('off')
-	plt.axis('off')
-	plt.draw()
-	plt.pause(0.001)
+	# error_vals.append(pixel_error(r_image, o_image))
+	# plt.imshow(r_image)
+	# plt.grid('off')
+	# plt.axis('off')
+	# plt.draw()
+	# plt.pause(0.001)
+
+	clear_output()
 
 	for exp_iter in range(1,num_trials + 1):
 
@@ -289,11 +291,12 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
 		raw_noise_level = input()
 
+		clear_output()
 
 		if int(raw_noise_level) == 1:
-			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 0.4)
+			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 1.2)
 		elif int(raw_noise_level) == 2:
-			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 1.3)
+			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 3.8)
 		else:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 8)
 		temp_grid =  [0] * 6 
