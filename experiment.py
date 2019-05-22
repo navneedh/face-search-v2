@@ -336,16 +336,17 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		learning_rate = (alpha**(exp_iter/2))
 		cur_z = cur_z + learning_rate * (noisyVecsSum/(6 * noise))
 
-		# print("Original Image")
+		print("Original Image")
 		o_image = z_sample(Gs, original_z)
 		imsave("./" + "exp" + str(experimentNum) + "/original.png", o_image)
-		# plt.imshow(o_image)
-		# plt.grid('off')
-		# plt.axis('off')
-		# plt.draw()
-		# plt.pause(0.001)
+		plt.imshow(o_image)
+		plt.grid('off')
+		plt.axis('off')
+		plt.draw()
+		plt.pause(0.001)
 
 
+		print("ITERATION #", exp_iter + 1)
 		# print("Reconstructed Image #", exp_iter + 1)
 		r_image = z_sample(Gs,cur_z)
 		total_grid.append(r_image)
