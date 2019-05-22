@@ -1,5 +1,5 @@
 import tensorflow as tf
-from scipy.misc import imsave
+from scipy.misc as sm 
 import matplotlib.pyplot as plt
 import numpy as np
 import PIL
@@ -252,7 +252,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	print("Generating Image to Reconstruct ... ")
 
 	o_image = z_sample(Gs, original_z)
-	imsave("./" + "exp" + str(experimentNum) + "/original.png", o_image)
+	sm.imsave("./" + "exp" + str(experimentNum) + "/original.png", o_image)
 	plt.imshow(o_image)
 	plt.grid('off')
 	plt.axis('off')
@@ -271,7 +271,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	# print("Reconstructed Image: ", 0)
 	r_image = z_sample(Gs, cur_z)
 	first_image = r_image
-	imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(1)+".png", r_image)
+	sm.imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(1)+".png", r_image)
 	# error_vals.append(pixel_error(r_image, o_image))
 	# plt.imshow(r_image)
 	# plt.grid('off')
@@ -338,7 +338,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		print("Original Image")
 		o_image = z_sample(Gs, original_z)
-		imsave("./" + "exp" + str(experimentNum) + "/original.png", o_image)
+		sm.imsave("./" + "exp" + str(experimentNum) + "/original.png", o_image)
 		plt.imshow(o_image)
 		plt.grid('off')
 		plt.axis('off')
@@ -351,7 +351,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		r_image = z_sample(Gs,cur_z)
 		total_grid.append(r_image)
 		z_vectors.append(cur_z)
-		imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(exp_iter + 1)+".png", r_image)
+		sm.imsave("./exp" + str(experimentNum) + "/reconstructed_"  +str(exp_iter + 1)+".png", r_image)
 		# error_vals.append(pixel_error(r_image, o_image))
 		# plt.imshow(r_image)
 		# plt.draw()
