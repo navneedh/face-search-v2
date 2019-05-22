@@ -1,5 +1,5 @@
 import tensorflow as tf
-from scipy.misc as sm 
+import scipy.misc as sm 
 import matplotlib.pyplot as plt
 import numpy as np
 import PIL
