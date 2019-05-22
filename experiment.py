@@ -1,5 +1,5 @@
 import tensorflow as tf
-import imagio as imsave
+import imageio as imsave
 import matplotlib.pyplot as plt
 import numpy as np
 import PIL
