@@ -146,7 +146,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	noisyImages = []
 	new_im = Image.new('RGB', (1792,128))
 	index = 0
-	print(" Low Noise               Medium Noise               High Noise                    Reconstructed   Original")
+	print(" Low Noise                              Medium Noise                              High Noise                                   Reconstructed   Original")
 	for i in range(0,384,128):
 		np.random.seed(np.random.randint(4362634))
 		noise_val = (random_vector() * 0.85) #most noise added
@@ -308,7 +308,6 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		print("Generating noise level options ... ") 
 		present_noise_choices(cur_z, exp_iter,experimentNum, o_image, r_image)
-		print("Least Noise (1): Images 1-3, Medium Noise (2): Images 4-6, High Noise (3): Images 7-9")
 		print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
 		raw_noise_level = input()
 
