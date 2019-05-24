@@ -128,7 +128,7 @@ def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
 	new_im.paste(im, ((len(image_matrices) + 1) * 128,0))
 
 	new_im.save("temp_save.png")
-	display(Imdisplay(filename = "temp_save.png", width=1000 - (iteration * 10), unconfined=True))
+	display(Imdisplay(filename = "temp_save.png", width=1000 - (iteration * 128), unconfined=True))
 	# plt.imshow(new_im)
 	plt.grid('off')
 	plt.axis('off')
@@ -146,7 +146,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	noisyImages = []
 	new_im = Image.new('RGB', (1792,128))
 	index = 0
-	print(" Low Noise                                         Medium Noise                                         High Noise                                       Reconstructed   Original")
+	print(" Low Noise                                         Medium Noise                                        High Noise                                        Reconstructed   Original")
 	for i in range(0,384,128):
 		np.random.seed(np.random.randint(4362634))
 		noise_val = (random_vector() * 0.85) #most noise added
