@@ -216,7 +216,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 
 		
 	new_im.save("noise_choices.png")
-	display(Imdisplay(filename = "noise_choices.png", width=1000, unconfined=True))
+	display(Imdisplay(filename = "noise_choices.png", width=1500, unconfined=True))
 	# plt.imshow(new_im)
 	plt.grid('off')
 	plt.axis('off')
