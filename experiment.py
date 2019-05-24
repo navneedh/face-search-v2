@@ -128,7 +128,7 @@ def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
 	new_im.paste(im, ((len(image_matrices) + 1) * 128,0))
 
 	new_im.save("temp_save.png")
-	display(Imdisplay(filename = "temp_save.png", width=1000/(iteration * 0.85) + (iteration * 10), unconfined=True))
+	display(Imdisplay(filename = "temp_save.png", width=1000/(iteration * 0.9) + (iteration * 8), unconfined=True))
 	# plt.imshow(new_im)
 	plt.grid('off')
 	plt.axis('off')
@@ -137,18 +137,19 @@ def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
 
 
 
-def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
+def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstructed_image, noise_level = 1):
 	noise = 0.99
 	seed = np.random.randint(4000)
 	np.random.seed(seed)
 	noisyVecs = []
 	noises = []
 	noisyImages = []
-	new_im = Image.new('RGB', (1408,128))
+	new_im = Image.new('RGB', (1792,128))
 	index = 0
+	print(" Low Noise               Medium Noise               High Noise                    Reconstructed   Original")
 	for i in range(0,384,128):
 		np.random.seed(np.random.randint(4362634))
-		noise_val = (random_vector() * 0.7) #most noise added
+		noise_val = (random_vector() * 0.85) #most noise added
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
@@ -165,7 +166,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 
 	for i in range(512,896,128):
 		np.random.seed(np.random.randint(4362634))
-		noise_val = (random_vector() * 3.1) #most noise added
+		noise_val = (random_vector() * 3.2) #most noise added
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
@@ -192,6 +193,26 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, noise_level = 1):
 		im = Image.fromarray(p_image)
 		im.thumbnail((128,128))
 		new_im.paste(im, (i,0))
+
+
+	#add blank image between proposals and original
+	im = Image.fromarray(white_image)
+	noisyImages.append(white_image)
+	im.thumbnail((128,128))
+	new_im.paste(im, (1408,0))
+
+	#add current reconstructed image to grid 	
+	im = Image.fromarray(cur_reconstructed_image)
+	noisyImages.append(cur_reconstructed_image)
+	im.thumbnail((128,128))
+	new_im.paste(im, (1536,0))
+
+	#add original image to grid
+	im = Image.fromarray(original)
+	noisyImages.append(original)
+	im.thumbnail((128,128))
+	new_im.paste(im, (1664,0))
+		
 
 		
 	new_im.save("noise_choices.png")
@@ -282,21 +303,21 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	clear_output()
 
 	for exp_iter in range(1,num_trials + 1):
-
+		print("ITERATION #", exp_iter + 1)
 
 
 		print("Generating noise level options ... ") 
-		present_noise_choices(cur_z, exp_iter,experimentNum)
-		print("Least Noise (1): Images 1-3, Middle Noise (2): Images 4-6, High Noise (3): Images 7-9")
+		present_noise_choices(cur_z, exp_iter,experimentNum, o_image, r_image)
+		print("Least Noise (1): Images 1-3, Medium Noise (2): Images 4-6, High Noise (3): Images 7-9")
 		print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
 		raw_noise_level = input()
 
 		clear_output()
 
 		if int(raw_noise_level) == 1:
-			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 0.7)
+			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 0.85)
 		elif int(raw_noise_level) == 2:
-			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 3.1)
+			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 3.2)
 		else:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 7)
 		temp_grid =  [0] * 6 
@@ -336,18 +357,16 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		learning_rate = (alpha**(exp_iter/2))
 		cur_z = cur_z + learning_rate * (noisyVecsSum/(6 * noise))
 
-		print("Original Image")
-		o_image = z_sample(Gs, original_z)
-		imageio.imwrite("./" + "exp" + str(experimentNum) + "/original.png", o_image)
-		plt.imshow(o_image)
-		plt.grid('off')
-		plt.axis('off')
-		plt.draw()
-		plt.pause(0.001)
+		# print("Original Image")
+		# o_image = z_sample(Gs, original_z)
+		# imageio.imwrite("./" + "exp" + str(experimentNum) + "/original.png", o_image)
+		# plt.imshow(o_image)
+		# plt.grid('off')
+		# plt.axis('off')
+		# plt.draw()
+		# plt.pause(0.001)
 
 
-		clear_output()
-		print("ITERATION #", exp_iter + 1)
 		# print("Reconstructed Image #", exp_iter + 1)
 		r_image = z_sample(Gs,cur_z)
 		total_grid.append(r_image)
