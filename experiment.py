@@ -350,7 +350,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		rankings = (rankings - rankings.mean())/rankings.std()
 		noisyVecsSum = np.zeros(512).reshape(1,512)
 		for i,r in enumerate(rankings):
-			temp_grid[r - 1] = copyNoisyImages[i]
+			temp_grid[int(r) - 1] = copyNoisyImages[i]
 			noisyVecsSum += r * (noises[i])
 		total_grid += temp_grid
 
