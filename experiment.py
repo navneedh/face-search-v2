@@ -160,9 +160,9 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		im.thumbnail((128,128))
 		new_im.paste(im, (i,0))
 
-	im_white = Image.fromarray(white_image)
-	im_white.thumbnail((128,128))
-	new_im.paste(im_white, (384,0))
+	im = Image.fromarray(white_image)
+	im.thumbnail((128,128))
+	new_im.paste(im, (384,0))
 
 	for i in range(512,896,128):
 		np.random.seed(np.random.randint(4362634))
@@ -177,7 +177,9 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		im.thumbnail((128,128))
 		new_im.paste(im, (i,0))
 
-	new_im.paste(im_white, (896,0))
+	im = Image.fromarray(white_image)
+	im.thumbnail((128,128))
+	new_im.paste(im, (896,0))
 
 	for i in range(1024,1408,128):
 		np.random.seed(np.random.randint(4362634))
@@ -194,9 +196,10 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 
 
 	#add blank image between proposals and original
-	noisyImages.append(im_white)
+	im = Image.fromarray(white_image)
+	noisyImages.append(white_image)
 	im.thumbnail((128,128))
-	new_im.paste(im_white, (1408,0))
+	new_im.paste(im, (1408,0))
 
 	#add current reconstructed image to grid 	
 	im = Image.fromarray(cur_reconstructed_image)
@@ -209,6 +212,8 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	noisyImages.append(original)
 	im.thumbnail((128,128))
 	new_im.paste(im, (1664,0))
+		
+
 		
 	new_im.save("noise_choices.png")
 	display(Imdisplay(filename = "noise_choices.png", width=1500, unconfined=True))
@@ -269,11 +274,11 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	o_image = z_sample(Gs, original_z)
 	imageio.imwrite("./" + "exp" + str(experimentNum) + "/original.png", o_image)
-	plt.imshow(o_image)
-	plt.grid('off')
-	plt.axis('off')
-	plt.draw()
-	plt.pause(0.001)
+	# plt.imshow(o_image)
+	# plt.grid('off')
+	# plt.axis('off')
+	# plt.draw()
+	# plt.pause(0.001)
 
 	#Keep track of experimental data
 	z_vectors = [] # z vector after each iteration
@@ -298,30 +303,27 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	clear_output()
 
 	for exp_iter in range(1,num_trials + 1):
-		
 		print("ITERATION #", exp_iter)
-		print("Generating noise level options ... ") 
+print("Generating noise level options ... ") 
 		present_noise_choices(cur_z, exp_iter,experimentNum, o_image, r_image)
 		print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
+		
 		raw_noise_level = input()
 
 		clear_output()
 
-		# present noisy image proposals given selected noise level
+		# present noisy proposals 
 		if int(raw_noise_level) == 1:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 0.85)
 		elif int(raw_noise_level) == 2:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 3.2)
 		else:
 			noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter, experimentNum, o_image, r_image, 7)
-
-
 		temp_grid =  [0] * 6 
+
 		copyNoisyImages = list(noisyImages)
 		raw_rankings = [0,0,0,0,0,0]
 		deleted_array = [1,1,1,1,1,1]
-
-		# 
 		for rank in range(6,0,-1):
 			print("Input index of image with highest similarity to original image beginning with index 1")
 			try:
@@ -340,8 +342,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 				gen_images_to_rank(noisyImages, o_image, best_image_index, 6 - rank + 1)
 
 		rankings = np.array(raw_rankings)
-
-		# #for final visualization purposes 
+		# #for visualization purposes 
 		# for i,r in enumerate(rankings):
 		# 	temp_grid[r - 1] = copyNoisyImages[i]
 		# total_grid += temp_grid
