@@ -330,7 +330,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 				deleted_array[delete_helper(deleted_array, best_image_index)] = 0
 
 			except:
-				print("Please enter a valid image index")
+				print("Please enter a valid image index between 1 and ", rank)
 				best_image_index = int(input())
 				raw_rankings[delete_helper(deleted_array, best_image_index)] = rank
 				deleted_array[delete_helper(deleted_array, best_image_index)] = 0
