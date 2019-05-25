@@ -304,7 +304,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	for exp_iter in range(1,num_trials + 1):
 		print("ITERATION #", exp_iter)
-print("Generating noise level options ... ") 
+		print("Generating noise level options ... ") 
 		present_noise_choices(cur_z, exp_iter,experimentNum, o_image, r_image)
 		print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
 		
