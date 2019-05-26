@@ -144,8 +144,10 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	np.random.seed(seed)
 	noisyVecs = []
 	noises = []
+	imagesToDisplay = []
 	noisyImages = []
 	new_im = Image.new('RGB', (1792,128))
+	blank_image_slate = np.zeros(1792, 128)
 	index = 0
 	print(" Low Noise                                         Medium Noise                                        High Noise                                        Reconstructed   Original")
 	for i in range(0,384,128):
@@ -154,6 +156,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
+		imagesToDisplay.append(np.array(Image.fromarray(p_image).resize(256,256)))
 		noises.append(noise_val)
 		noisyVecs.append(zs)
 		noisyImages.append(p_image)
