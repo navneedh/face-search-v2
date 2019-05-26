@@ -224,7 +224,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	im.thumbnail((128,128))
 	new_im.paste(im, (1664,0))
 
-	image_grid = np.concatenate(imagesToDisplay, axis = 0)
+	image_grid = np.hstack(imagesToDisplay, axis = 0)
 
 	
 
