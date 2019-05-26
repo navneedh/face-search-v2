@@ -109,7 +109,8 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 	new_im.paste(im, (1024,0))
 		
 	new_im.save("./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png")
-	display(Imdisplay(filename = "./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png", width=1000, unconfined=True))
+	# display(Imdisplay(filename = "./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png", width=1000, unconfined=True))
+	display(Imdisplay(data = new_im, width=1000, unconfined=True))
 	# plt.imshow(new_im)
 	plt.draw()
 	plt.pause(0.001)
