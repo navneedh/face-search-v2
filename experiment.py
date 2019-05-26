@@ -147,7 +147,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	imagesToDisplay = []
 	noisyImages = []
 	new_im = Image.new('RGB', (1792,128))
-	blank_image_slate = np.zeros(1792, 128)
+	blank_image_slate = np.zeros((1792,128))
 	index = 0
 	print(" Low Noise                                         Medium Noise                                        High Noise                                        Reconstructed   Original")
 	for i in range(0,384,128):
