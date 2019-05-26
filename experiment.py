@@ -232,11 +232,11 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	# new_im.save("noise_choices.png")
 	# display(Imdisplay(filename = "noise_choices.png", width=1500, unconfined=True))
 	# # plt.imshow(new_im)
+	plt.imshow(image_grid)
+	plt.figure(figsize=(5,10))
 	plt.grid('off')
 	plt.axis('off')
-	plt.figure(figsize=(5,10))
-	plt.imshow(image_grid)
-	plt.draw()
+	# plt.draw()
 	plt.pause(0.001)
 	return noisyVecs, noisyImages, noises
 
