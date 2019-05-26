@@ -110,7 +110,6 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 		
 	new_im.save("./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png")
 	display(Imdisplay(filename = "./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png", width=1000, unconfined=True))
-	# display(Imdisplay(data = new_im, width=1000, unconfined=True))
 	# plt.imshow(new_im)
 	plt.draw()
 	plt.pause(0.001)
@@ -148,15 +147,16 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	noisyImages = []
 	# new_im = Image.new('RGB', (1792,128))
 	blank_image_slate = np.zeros((1792,128))
+	white_image = np.array(Image.fromarray(white_image).resize(size = (256,256), resample = False))
 	index = 0
 	print(" Low Noise                                         Medium Noise                                        High Noise                                        Reconstructed   Original")
 	for i in range(0,384,128):
 		np.random.seed(np.random.randint(4362634))
-		noise_val = (random_vector() * 0.85) #most noise added
+		noise_val = (random_vector() * 0.85) #least noise added
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
-		imagesToDisplay.append(np.array(Image.fromarray(p_image).resize(size = (256,256), resample = 0)))
+		imagesToDisplay.append(np.array(Image.fromarray(p_image).resize(size = (256,256), resample = False)))
 		noises.append(noise_val)
 		noisyVecs.append(zs)
 		noisyImages.append(p_image)
@@ -164,7 +164,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		# im.thumbnail((128,128))
 		# new_im.paste(im, (i,0))
 
-	imagesToDisplay.append(np.array(Image.fromarray(white_image).resize(size = (256,256), resample = 0)))
+	imagesToDisplay.append(white_image)
 	# im = Image.fromarray(white_image)
 	# im.thumbnail((128,128))
 	# new_im.paste(im, (384,0))
@@ -175,7 +175,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
-		imagesToDisplay.append(np.array(Image.fromarray(p_image).resize(size = (256,256), resample = 0)))
+		imagesToDisplay.append(np.array(Image.fromarray(p_image).resize(size = (256,256), resample = False)))
 		noises.append(noise_val)
 		noisyVecs.append(zs)
 		noisyImages.append(p_image)
@@ -183,7 +183,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		# im.thumbnail((128,128))
 		# new_im.paste(im, (i,0))
 
-	imagesToDisplay.append(np.array(Image.fromarray(white_image).resize(size = (256,256), resample = 0)))
+	imagesToDisplay.append(white_image)
 	# im = Image.fromarray(white_image)
 	# im.thumbnail((128,128))
 	# new_im.paste(im, (896,0))
@@ -194,7 +194,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
-		imagesToDisplay.append(np.array(Image.fromarray(p_image).resize(size = (256,256), resample = 0)))
+		imagesToDisplay.append(np.array(Image.fromarray(p_image).resize(size = (256,256), resample = False )))
 		noises.append(noise_val)
 		noisyVecs.append(zs)
 		noisyImages.append(p_image)
@@ -204,21 +204,21 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 
 
 	#add blank image between proposals and original
-	imagesToDisplay.append(np.array(Image.fromarray(white_image).resize(size = (256,256), resample = 0)))
+	imagesToDisplay.append(white_image)
 	# im = Image.fromarray(white_image)
 	noisyImages.append(white_image)
 	# im.thumbnail((128,128))
 	# new_im.paste(im, (1408,0))
 
 	#add current reconstructed image to grid 	
-	imagesToDisplay.append(np.array(Image.fromarray(cur_reconstructed_image).resize(size = (256,256), resample = 0)))
+	imagesToDisplay.append(np.array(Image.fromarray(cur_reconstructed_image).resize(size = (256,256), resample = False)))
 	# im = Image.fromarray(cur_reconstructed_image)
 	noisyImages.append(cur_reconstructed_image)
 	# im.thumbnail((128,128))
 	# new_im.paste(im, (1536,0))
 
 	#add original image to grid
-	imagesToDisplay.append(np.array(Image.fromarray(original).resize(size = (256,256), resample = 0)))
+	imagesToDisplay.append(np.array(Image.fromarray(original).resize(size = (256,256), resample = False)))
 	# im = Image.fromarray(original)
 	noisyImages.append(original)
 	# im.thumbnail((128,128))
