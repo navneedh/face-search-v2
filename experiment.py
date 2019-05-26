@@ -164,6 +164,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		im.thumbnail((128,128))
 		new_im.paste(im, (i,0))
 
+	imagesToDisplay.append(white_image)
 	im = Image.fromarray(white_image)
 	im.thumbnail((128,128))
 	new_im.paste(im, (384,0))
@@ -174,6 +175,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
+		imagesToDisplay.append(np.array(Image.fromarray(p_image).resize(size = (256,256), resample = 0)))
 		noises.append(noise_val)
 		noisyVecs.append(zs)
 		noisyImages.append(p_image)
@@ -181,6 +183,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		im.thumbnail((128,128))
 		new_im.paste(im, (i,0))
 
+	imagesToDisplay.append(white_image)
 	im = Image.fromarray(white_image)
 	im.thumbnail((128,128))
 	new_im.paste(im, (896,0))
@@ -191,6 +194,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		zs = cur_z + noise_val
 		zs = np.clip(zs, -5, 5)
 		p_image = z_sample(Gs, zs)
+		imagesToDisplay.append(np.array(Image.fromarray(p_image).resize(size = (256,256), resample = 0)))
 		noises.append(noise_val)
 		noisyVecs.append(zs)
 		noisyImages.append(p_image)
@@ -200,30 +204,38 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 
 
 	#add blank image between proposals and original
+	imagesToDisplay.append(white_image)
 	im = Image.fromarray(white_image)
 	noisyImages.append(white_image)
 	im.thumbnail((128,128))
 	new_im.paste(im, (1408,0))
 
 	#add current reconstructed image to grid 	
+	imagesToDisplay.append(cur_reconstructed_image)
 	im = Image.fromarray(cur_reconstructed_image)
 	noisyImages.append(cur_reconstructed_image)
 	im.thumbnail((128,128))
 	new_im.paste(im, (1536,0))
 
 	#add original image to grid
+	imagesToDisplay.append(original)
 	im = Image.fromarray(original)
 	noisyImages.append(original)
 	im.thumbnail((128,128))
 	new_im.paste(im, (1664,0))
-		
+
+	image_grid = np.concatenate(imagesToDisplay, axis = 0)
+
+	
 
 		
-	new_im.save("noise_choices.png")
-	display(Imdisplay(filename = "noise_choices.png", width=1500, unconfined=True))
-	# plt.imshow(new_im)
+	# new_im.save("noise_choices.png")
+	# display(Imdisplay(filename = "noise_choices.png", width=1500, unconfined=True))
+	# # plt.imshow(new_im)
+	print("here we go")
 	plt.grid('off')
 	plt.axis('off')
+	plt.imshow(image_grid)
 	plt.draw()
 	plt.pause(0.001)
 	return noisyVecs, noisyImages, noises
