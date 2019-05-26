@@ -147,7 +147,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	noisyImages = []
 	# new_im = Image.new('RGB', (1792,128))
 	blank_image_slate = np.zeros((1792,128))
-	white_image = np.array(Image.fromarray(white_image).resize(size = (256,256), resample = False))
+	white_image_fixed = np.array(Image.fromarray(white_image).resize(size = (256,256), resample = False))
 	index = 0
 	print(" Low Noise                                         Medium Noise                                        High Noise                                        Reconstructed   Original")
 	for i in range(0,384,128):
@@ -164,7 +164,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		# im.thumbnail((128,128))
 		# new_im.paste(im, (i,0))
 
-	imagesToDisplay.append(white_image)
+	imagesToDisplay.append(white_image_fixed)
 	# im = Image.fromarray(white_image)
 	# im.thumbnail((128,128))
 	# new_im.paste(im, (384,0))
@@ -183,7 +183,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 		# im.thumbnail((128,128))
 		# new_im.paste(im, (i,0))
 
-	imagesToDisplay.append(white_image)
+	imagesToDisplay.append(white_image_fixed)
 	# im = Image.fromarray(white_image)
 	# im.thumbnail((128,128))
 	# new_im.paste(im, (896,0))
@@ -204,7 +204,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 
 
 	#add blank image between proposals and original
-	imagesToDisplay.append(white_image)
+	imagesToDisplay.append(white_image_fixed)
 	# im = Image.fromarray(white_image)
 	noisyImages.append(white_image)
 	# im.thumbnail((128,128))
