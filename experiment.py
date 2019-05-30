@@ -123,10 +123,6 @@ def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
 	for i in range(0,len(image_matrices) * 128,128):
 		imagesToDisplay.append(np.array(Image.fromarray(image_matrices[int(i/128)]).resize(size = (256,256), resample = False)))
 
-	imagesToDisplay.append(white_image_fixed)
-	imagesToDisplay.append(np.array(Image.fromarray(original).resize(size = (256,256), resample = False)))
-	
-
 	image_grid = np.hstack(imagesToDisplay)
 
 	plt.figure(figsize=(25,50))
@@ -149,7 +145,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	# new_im = Image.new('RGB', (1792,128))
 	white_image_fixed = np.array(Image.fromarray(white_image).resize(size = (256,256), resample = False))
 	index = 0
-	print(" Low Noise                                         Medium Noise                                        High Noise                                        Reconstructed   Original")
+	print(" Low Noise                                         Medium Noise                                   High Noise                                        Reconstructed   Original")
 	for i in range(0,384,128):
 		noise_val = (random_vector() * 0.85) #least noise added
 		zs = cur_z + noise_val
@@ -326,16 +322,14 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		rankings = np.array(raw_rankings)
 		# #for visualization purposes 
-		# for i,r in enumerate(rankings):
-		# 	temp_grid[r - 1] = copyNoisyImages[i]
-		# total_grid += temp_grid
+		for i,r in enumerate(rankings):
+			temp_grid[r - 1] = copyNoisyImages[i]
+		total_grid += temp_grid
 
 		rankings = (rankings - rankings.mean())/rankings.std()
 		noisyVecsSum = np.zeros(512).reshape(1,512)
 		for i,r in enumerate(rankings):
-			temp_grid[int(r) - 1] = copyNoisyImages[i]
 			noisyVecsSum += r * (noises[i])
-		total_grid += temp_grid
 
 		#update step 
 		learning_rate = (alpha**(exp_iter/2))
