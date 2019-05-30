@@ -16,6 +16,8 @@ from IPython.display import display, Markdown, clear_output
 import ipywidgets as widgets
 from IPython.core.display import Image as Imdisplay
 
+# use imageio.imwrite
+
 # Initialize TensorFlow
 tflib.init_tf()
 
@@ -253,13 +255,8 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	print("Generating Image to Reconstruct ... ")
 
+	# generate image to reconstruct during experiment
 	o_image = z_sample(Gs, original_z)
-	# imageio.imwrite("./" + "exp" + str(experimentNum) + "/original.png", o_image)
-	# plt.imshow(o_image)
-	# plt.grid('off')
-	# plt.axis('off')
-	# plt.draw()
-	# plt.pause(0.001)
 
 	#Keep track of experimental data
 	z_vectors = [] # z vector after each iteration
@@ -268,16 +265,9 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	cur_z = random_vector()
 	
-	# print("Reconstructed Image: ", 0)
+	# generate initial random image to begin experiment 
 	r_image = z_sample(Gs, cur_z)
 	first_image = r_image
-	# imageio.imwrite("./exp" + str(experimentNum) + "/reconstructed_"  +str(1)+".png", r_image)
-	# error_vals.append(pixel_error(r_image, o_image))
-	# plt.imshow(r_image)
-	# plt.grid('off')
-	# plt.axis('off')
-	# plt.draw()
-	# plt.pause(0.001)
 
 	clear_output()
 
@@ -311,7 +301,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 				deleted_array[delete_helper(deleted_array, best_image_index)] = 0
 
 			except:
-				print("Please enter a valid image index between 1 and ", rank)
+				print("Please enter a valid image index between 1 and", rank)
 				best_image_index = int(input())
 				raw_rankings[delete_helper(deleted_array, best_image_index)] = rank
 				deleted_array[delete_helper(deleted_array, best_image_index)] = 0
@@ -331,30 +321,14 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		for i,r in enumerate(rankings):
 			noisyVecsSum += r * (noises[i])
 
-		#update step 
+		# update step 
 		learning_rate = (alpha**(exp_iter/2))
 		cur_z = cur_z + learning_rate * (noisyVecsSum/(6 * noise))
 
-		# print("Original Image")
-		# o_image = z_sample(Gs, original_z)
-		# imageio.imwrite("./" + "exp" + str(experimentNum) + "/original.png", o_image)
-		# plt.imshow(o_image)
-		# plt.grid('off')
-		# plt.axis('off')
-		# plt.draw()
-
-
-		# print("Reconstructed Image #", exp_iter + 1)
+		# create next reconstructed image
 		r_image = z_sample(Gs,cur_z)
 		total_grid.append(r_image)
 		z_vectors.append(cur_z)
-		# imageio.imwrite("./exp" + str(experimentNum) + "/reconstructed_"  +str(exp_iter + 1)+".png", r_image)
-		# error_vals.append(pixel_error(r_image, o_image))
-		# plt.imshow(r_image)
-		# plt.draw()
-		# plt.grid('off')
-		# plt.axis('off')
-
 
 	print("Experiment Complete!")    
 	gen_grid_vis(o_image, first_image, total_grid, num_trials, experimentNum)
