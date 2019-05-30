@@ -120,7 +120,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 	# display(Imdisplay(filename = "./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png", width=1000, unconfined=True))
 	plt.figure(figsize=(25,50))
 	plt.grid(False)
-	plt.axis(False)
+	plt.axis("off")
 	plt.imshow(image_grid)
 	# plt.imshow(new_im)
 	plt.draw()
