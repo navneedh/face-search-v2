@@ -78,7 +78,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 	white_image_fixed = np.array(Image.fromarray(white_image).resize(size = (256,256), resample = False))
 	index = 0
 	print("Generating grid of noisy images ...")
-	print("      1             2            3            4            5            6                    Reconstructed   Original")
+	print("      1                     2                    3                    4                    5                    6                        Reconstructed   Original")
 	for i in range(0,768,128):
 		np.random.seed(np.random.randint(4362634))
 		noise_val = (random_vector() * noise_level) #most noise added
@@ -128,22 +128,34 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 	return noisyVecs, noisyImages, noises
 
 def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
-	new_im = Image.new('RGB', ((len(image_matrices) - 1) * 128,128))
+	white_image_fixed = np.array(Image.fromarray(white_image).resize(size = (256,256), resample = False))
+	imagesToDisplay = []
+	# new_im = Image.new('RGB', ((len(image_matrices) - 1) * 128,128))
 	del image_matrices[indexToRemove - 1]
-	for i in range(0,len(image_matrices) * 128,128):
-		im = Image.fromarray(image_matrices[int(i/128)])
-		im.thumbnail((128,128))
-		new_im.paste(im, (i,0))
-	
-	im = Image.fromarray(original)
-	im.thumbnail((128,128))
-	new_im.paste(im, ((len(image_matrices) + 1) * 128,0))
+	# for i in range(0,len(image_matrices) * 128,128):
+	# 	im = Image.fromarray(image_matrices[int(i/128)])
+	# 	im.thumbnail((128,128))
+	# 	new_im.paste(im, (i,0))
 
-	new_im.save("temp_save.png")
-	display(Imdisplay(filename = "temp_save.png", width=1000 - (iteration * 128), unconfined=True))
+	imagesToDisplay = image_matrices
+	imagesToDisplay.append(white_image_fixed)
+	imagesToDisplay.append(np.array(Image.fromarray(original).resize(size = (256,256), resample = False)))
+	
+	# im = Image.fromarray(original)
+	# im.thumbnail((128,128))
+	# new_im.paste(im, ((len(image_matrices) + 1) * 128,0))
+
+	# new_im.save("temp_save.png")
+	# display(Imdisplay(filename = "temp_save.png", width=1000 - (iteration * 128), unconfined=True))
 	# plt.imshow(new_im)
+
+	image_grid = np.hstack(imagesToDisplay)
+
+	plt.figure(figsize=(25,50))
 	plt.grid(False)
-	plt.axis('off')
+	plt.axis("off")
+	plt.imshow(image_grid)
+	# plt.imshow(new_im)
 	plt.draw()
 	plt.pause(0.001)
 
