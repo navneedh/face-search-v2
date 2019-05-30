@@ -112,6 +112,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 	plt.imshow(image_grid)
 	# plt.imshow(new_im)
 	plt.draw()
+	plt.pause(0.00001)
 	return noisyVecs, noisyImages, noises
 
 def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
@@ -134,6 +135,7 @@ def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
 	plt.imshow(image_grid)
 	# plt.imshow(new_im)
 	plt.draw()
+	plt.pause(0.00001)
 
 
 
@@ -204,6 +206,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	plt.axis('off')
 	plt.imshow(image_grid)
 	plt.draw()
+	plt.pause(0.00001)
 	return noisyVecs, noisyImages, noises
 
 
@@ -255,7 +258,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	print("Generating Image to Reconstruct ... ")
 
 	o_image = z_sample(Gs, original_z)
-	imageio.imwrite("./" + "exp" + str(experimentNum) + "/original.png", o_image)
+	# imageio.imwrite("./" + "exp" + str(experimentNum) + "/original.png", o_image)
 	# plt.imshow(o_image)
 	# plt.grid('off')
 	# plt.axis('off')
@@ -267,14 +270,12 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	error_vals = [] # pixel error w.r.t original image after each iteration
 	total_grid = []
 
-	np.random.seed(1923438817)
-
 	cur_z = random_vector()
 	
 	# print("Reconstructed Image: ", 0)
 	r_image = z_sample(Gs, cur_z)
 	first_image = r_image
-	imageio.imwrite("./exp" + str(experimentNum) + "/reconstructed_"  +str(1)+".png", r_image)
+	# imageio.imwrite("./exp" + str(experimentNum) + "/reconstructed_"  +str(1)+".png", r_image)
 	# error_vals.append(pixel_error(r_image, o_image))
 	# plt.imshow(r_image)
 	# plt.grid('off')
