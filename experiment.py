@@ -132,12 +132,13 @@ def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
 	imagesToDisplay = []
 	# new_im = Image.new('RGB', ((len(image_matrices) - 1) * 128,128))
 	del image_matrices[indexToRemove - 1]
-	# for i in range(0,len(image_matrices) * 128,128):
-	# 	im = Image.fromarray(image_matrices[int(i/128)])
-	# 	im.thumbnail((128,128))
-	# 	new_im.paste(im, (i,0))
+	for i in range(0,len(image_matrices) * 128,128):
+		imagesToDisplay.append(np.array(Image.fromarray(image_matrices[int(i/128)]).resize(size = (256,256), resample = False)))
+		# im = Image.fromarray(image_matrices[int(i/128)])
+		# im.thumbnail((128,128))
+		# new_im.paste(im, (i,0))
 
-	imagesToDisplay = image_matrices
+	# imagesToDisplay = image_matrices
 	imagesToDisplay.append(white_image_fixed)
 	imagesToDisplay.append(np.array(Image.fromarray(original).resize(size = (256,256), resample = False)))
 	
