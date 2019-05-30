@@ -244,7 +244,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	# # plt.imshow(new_im)
 	plt.figure(figsize=(25,50))
 	plt.grid(False)
-	plt.axis(False)
+	plt.axis('off')
 	plt.imshow(image_grid)
 	plt.draw()
 	plt.pause(0.001)
