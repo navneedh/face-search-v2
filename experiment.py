@@ -89,9 +89,9 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 		noises.append(noise_val)
 		noisyVecs.append(zs)
 		noisyImages.append(p_image)
-		im = Image.fromarray(p_image)
-		im.thumbnail((128,128))
-		new_im.paste(im, (i,0))		
+		# im = Image.fromarray(p_image)
+		# im.thumbnail((128,128))
+		# new_im.paste(im, (i,0))		
 
 	#add blank image between proposals and original
 	imagesToDisplay.append(white_image_fixed)
