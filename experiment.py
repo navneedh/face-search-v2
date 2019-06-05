@@ -46,7 +46,6 @@ def random_sample(Gs):
 	os.makedirs(config.result_dir, exist_ok=True)
 	png_filename = os.path.join(config.result_dir, 'random.png')
 	PIL.Image.fromarray(images[0], 'RGB').save(png_filename)
-	print("Done")
 	
 def z_sample(Gs, z):
 	#z.shape = (1,512)
@@ -108,7 +107,7 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 		
 	# new_im.save("./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png")
 	# display(Imdisplay(filename = "./exp" + str(experimentNum) + "/grid_" +str(exp_iter)+".png", width=1000, unconfined=True))
-	plt.figure(figsize=(25,50))
+	plt.figure(figsize=(20,40))
 	plt.grid(False)
 	plt.axis("off")
 	plt.imshow(image_grid)
@@ -127,7 +126,7 @@ def gen_images_to_rank(image_matrices, original, indexToRemove, iteration):
 
 	image_grid = np.hstack(imagesToDisplay)
 
-	plt.figure(figsize=(25,50))
+	plt.figure(figsize=(20,40))
 	plt.grid(False)
 	plt.axis("off")
 	plt.imshow(image_grid)
@@ -199,7 +198,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 
 	# new_im.save("noise_choices.png")
 	# display(Imdisplay(filename = "noise_choices.png", width=1500, unconfined=True))
-	plt.figure(figsize=(25,50))
+	plt.figure(figsize=(20,40))
 	plt.grid(False)
 	plt.axis('off')
 	plt.imshow(image_grid)
@@ -248,8 +247,8 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 	os.mkdir("exp" + str(experimentNum))
 
 	#Generate and save original image that you will 
-	seed = 3242
-	np.random.seed(19238817)
+	seed = 3244
+	np.random.seed(3434234)
 
 	original_z = random_vector()
 
