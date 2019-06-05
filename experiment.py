@@ -146,7 +146,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	# new_im = Image.new('RGB', (1792,128))
 	white_image_fixed = np.array(Image.fromarray(white_image).resize(size = (256,256), resample = False))
 	index = 0
-	print(" Low Noise                                 Medium Noise                         High Noise                            Reconstructed  Original")
+	print("    Low Noise                              Medium Noise                         High Noise                               Reconstructed     Original")
 	for i in range(0,384,128):
 		noise_val = (random_vector() * 0.85) #least noise added
 		zs = cur_z + noise_val
