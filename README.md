@@ -1,7 +1,7 @@
-# face-search-v2
+# Face Search
 Gradient based search of human faces using a human fitness function
 
-Google collab notebook to access experiment 
+Access experiment using link below: 
 
 https://colab.research.google.com/drive/1es02NOEvDChVeWhrUUsoflEOBrxIhQNT#scrollTo=_PBkeZnaMSBH
 
