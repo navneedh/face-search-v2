@@ -315,7 +315,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		for i in range(6):
 			temp_filename = os.path.join(config.result_dir, 'x_temp.png')
 			PIL.Image.fromarray(noisyImages[i], 'RGB').save(temp_filename)
-			vggface_scores[i] = classify(temp_filename, face_classifier, class_num=1095)
+			vggface_scores[i] = classify(temp_filename, face_classifier, class_num=398) #change class number to score proposals against different faces 
 
 		vggface_scores = np.array(vggface_scores)
 
