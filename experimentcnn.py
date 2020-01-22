@@ -321,7 +321,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		vggface_scores = (vggface_scores - vggface_scores.mean())/vggface_scores.std()
 		noisyVecsSum = np.zeros(512).reshape(1,512).astype('float32')
-		for i,r in enumerate(rankings):
+		for i,r in enumerate(vggface_scores):
 			score_weighted_noise += r * (noises[i])
 
 		# update step 
