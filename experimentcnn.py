@@ -273,7 +273,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	#Generate and save original image that you will 
 	seed = 3244
-	np.random.seed(3434234)
+	np.random.seed(34234)
 
 	original_z = random_vector()
 
@@ -305,7 +305,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		# clear_output()
 
-		noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 1)
+		noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 1.5)
 
 		temp_grid =  [0] * 6 
 
