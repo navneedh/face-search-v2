@@ -307,6 +307,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 1.5)
 
+		copyNoisyImages = list(noisyImages)
 		temp_grid =  [0] * 6 
 
 
@@ -321,7 +322,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		#for visualization purposes 
 		for i,r in enumerate(vggface_scores):
-			temp_grid[r - 1] = noisyImages[i]
+			temp_grid[r - 1] = copyNoisyImages[i]
 		total_grid += temp_grid
 
 		vggface_scores = (vggface_scores - vggface_scores.mean())/vggface_scores.std()
