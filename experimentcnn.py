@@ -319,6 +319,11 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		vggface_scores = np.array(vggface_scores)
 
+		#for visualization purposes 
+		for i,r in enumerate(vggface_scores):
+			temp_grid[r - 1] = noisyImages[i]
+		total_grid += temp_grid
+
 		vggface_scores = (vggface_scores - vggface_scores.mean())/vggface_scores.std()
 		score_weighted_noise = np.zeros(512).reshape(1,512).astype('float32')
 		for i,r in enumerate(vggface_scores):
