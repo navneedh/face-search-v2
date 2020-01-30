@@ -322,6 +322,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 		#for visualization purposes 
 		for i,r in enumerate(vggface_scores):
+			print(i,r)
 			temp_grid[r - 1] = copyNoisyImages[i]
 		total_grid += temp_grid
 
