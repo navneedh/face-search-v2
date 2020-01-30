@@ -267,7 +267,7 @@ def classify(path, classifier, class_num=None):
 		return class_probs[class_num]
 
 
-def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha = 0.99):
+def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha = 0.99, face_class = 398):
 
 	os.mkdir("exp" + str(experimentNum))
 
@@ -315,7 +315,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		for i in range(6):
 			temp_filename = os.path.join(config.result_dir, 'x_temp.png')
 			PIL.Image.fromarray(noisyImages[i], 'RGB').save(temp_filename)
-			vggface_scores[i] = classify(temp_filename, face_classifier, class_num=398) #change class number to score proposals against different faces 
+			vggface_scores[i] = classify(temp_filename, face_classifier, class_num=face_class) #change class number to score proposals against different faces 
 
 		vggface_scores = np.array(vggface_scores)
 		vggface_scores_copy = np.copy(vggface_scores)
