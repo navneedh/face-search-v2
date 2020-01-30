@@ -308,8 +308,7 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		noisyVecs, noisyImages, noises = gen_grid_exp(cur_z, exp_iter,experimentNum, o_image, r_image, 1.5)
 
 		copyNoisyImages = list(noisyImages)
-		temp_grid =  [0] * 6 
-
+		temp_grid =  [0] * 6  
 
 		vggface_scores = [0] * 6
 
@@ -319,11 +318,13 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 			vggface_scores[i] = classify(temp_filename, face_classifier, class_num=398) #change class number to score proposals against different faces 
 
 		vggface_scores = np.array(vggface_scores)
+		vggface_scores_copy = np.copy(vggface_scores)
 
 		#for visualization purposes 
 		for i,r in enumerate(vggface_scores):
-			print(i,r)
-			temp_grid[r - 1] = copyNoisyImages[i]
+			best_scoring_image = np.argmax(vggface_scores_copy)
+			vggface_scores_copy[best_scoring_image] = -100
+			temp_grid[len(temp_grid) - 1 - i] = copyNoisyImages[best_scoring_image]
 		total_grid += temp_grid
 
 		vggface_scores = (vggface_scores - vggface_scores.mean())/vggface_scores.std()
