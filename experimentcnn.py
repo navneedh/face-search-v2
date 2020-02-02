@@ -261,6 +261,7 @@ def classify(path, classifier, class_num=None):
 	x = utils.preprocess_input(x, version=2)
 
 	class_probs = classifier.predict(x)[0]
+	print(class_probs.shape)
 	if class_num is None: 
 		return class_probs
 	else:
