@@ -78,8 +78,8 @@ def gen_grid_exp(cur_z, exp_iter, experimentNum, original, cur_reconstructed_ima
 	# new_im = Image.new('RGB', (1152,128))
 	white_image_fixed = np.array(Image.fromarray(white_image).resize(size = (256,256), resample = False))
 	index = 0
-	print("Generating grid of noisy images ...")
-	print("      1               2              3              4             5              6                         Reconstructed    Original")
+	print("Generating grid of noisy image proposals ...")
+	print("      1               2              3              4             5              6                         Cur. Reconstruction    Target")
 	for i in range(0,768,128):
 		np.random.seed(np.random.randint(4362634))
 		noise_val = (random_vector() * noise_level) #most noise added
@@ -146,7 +146,7 @@ def present_noise_choices(cur_z, exp_iter, experimentNum, original, cur_reconstr
 	# new_im = Image.new('RGB', (1792,128))
 	white_image_fixed = np.array(Image.fromarray(white_image).resize(size = (256,256), resample = False))
 	index = 0
-	print("   Low Noise                               Medium Noise                         High Noise                            Recon.    Original")
+	print("   Low Noise Examples                      Medium Noise Examples                 High Noise Examples                    Cur Recon.    Target")
 	for i in range(0,384,128):
 		noise_val = (random_vector() * 0.85) #least noise added
 		zs = cur_z + noise_val
@@ -272,9 +272,9 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 
 	for exp_iter in range(1,num_trials + 1):
 		print("ITERATION #", exp_iter)
-		print("Generating noise level options ... ") 
+		print("Generating example image proposals with varying noise levels ... ") 
 		present_noise_choices(cur_z, exp_iter,experimentNum, o_image, r_image)
-		print("Input integer between 1 (least noise) - 3 (most noise) for desired noise level")
+		print("Input integer between 1 (least noise) - 3 (most noise) for to alter noise level of proposals ")
 		
 		raw_noise_level = input()
 
@@ -293,14 +293,14 @@ def run(experimentNum, num_trials = 20, learning_rate = 15, noise = 0.99, alpha 
 		raw_rankings = [0,0,0,0,0,0]
 		deleted_array = [1,1,1,1,1,1]
 		for rank in range(6,0,-1):
-			print("Input index of image with highest similarity to original image beginning with index 1")
+			print("Input index of image with highest similarity to the target image beginning with index 1")
 			try:
 				best_image_index = int(input())
 				raw_rankings[delete_helper(deleted_array, best_image_index)] = rank
 				deleted_array[delete_helper(deleted_array, best_image_index)] = 0
 
 			except:
-				print("Please enter a valid image index between 1 and", rank)
+				print("Please enter a valid image index between 1 and", rank+1)
 				best_image_index = int(input())
 				raw_rankings[delete_helper(deleted_array, best_image_index)] = rank
 				deleted_array[delete_helper(deleted_array, best_image_index)] = 0
